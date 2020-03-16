@@ -1,0 +1,10 @@
+{
+  "name": "@walrus/plugin-prettier",
+  "version": "1.0.0",
+  "description": "walrus plugin prettier",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "prettier": "^1.19.1"
+  }
+}
