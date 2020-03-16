@@ -1,0 +1,12 @@
+{
+  "name": "@walrus/preset-lint",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "@walrus/plugin-commitlint": "^1.0.0",
+    "@walrus/plugin-eslint": "^1.0.0",
+    "@walrus/plugin-prettier": "^1.0.0",
+    "@walrus/plugin-stylelint": "^1.0.0"
+  }
+}
