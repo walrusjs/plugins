@@ -1,0 +1,15 @@
+{
+  "name": "@walrus/plugin-stylelint",
+  "version": "1.0.0",
+  "description": "walrus plugin stylelint",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "stylelint": "^13.2.1",
+    "stylelint-config-prettier": "^8.0.1",
+    "stylelint-config-rational-order": "^0.1.2",
+    "stylelint-config-standard": "^20.0.0",
+    "stylelint-declaration-block-no-ignored-properties": "^2.3.0",
+    "stylelint-order": "^4.0.0"
+  }
+}
