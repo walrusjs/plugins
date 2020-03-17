@@ -1,0 +1,17 @@
+{
+  "name": "@walrus/plugin-release",
+  "version": "1.0.0",
+  "description": "walrus plugin release",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "lib"
+  ],
+  "license": "MIT",
+  "peerDependencies": {
+    "@walrus/cli": "1.x"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -8,10 +8,12 @@
   "license": "MIT",
   "scripts": {
     "build": "father-build",
-    "test": "birman-test"
+    "test": "birman-test",
+    "links": "yarn link @walrus/cli && yarn link @walrus/preset-internal && yarn link @walrus/core && yarn link @walrus/types"
   },
   "devDependencies": {
     "@birman/test": "^1.1.0",
+    "@walrus/cli": "^1.0.1-beta.3",
     "father-build": "^1.17.2",
     "lerna": "^3.20.2",
     "typescript": "^3.8.3"
