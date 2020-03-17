@@ -11,6 +11,10 @@
   "peerDependencies": {
     "@walrus/cli": "1.x"
   },
+  "dependencies": {
+    "inquirer": "^7.1.0",
+    "lerna": "^3.20.2"
+  },
   "publishConfig": {
     "access": "public"
   }
