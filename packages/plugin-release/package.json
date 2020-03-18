@@ -12,6 +12,7 @@
     "@walrus/cli": "1.x"
   },
   "dependencies": {
+    "escape-goat": "^3.0.0",
     "inquirer": "^7.1.0",
     "lerna": "^3.20.2"
   },

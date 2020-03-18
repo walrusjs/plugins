@@ -7,12 +7,18 @@ import {
   packageExists,
   exec,
   getPackages,
-  isNextVersion
+  isNextVersion,
+  getChangelog
 } from '../utils';
 
 const lernaCli = require.resolve('lerna/cli');
 
 async function release(cwd: string, args: ReleasePluginConfig) {
+  // get release notes
+  logStep('get release notes');
+  const releaseNotes = await getChangelog('');
+  console.log(releaseNotes(''));
+
   let updated = null;
 
   if (!args.publishOnly) {

@@ -28,6 +28,8 @@ export default function(api: Api) {
         return joi.object({
           skipBuild: joi.boolean(),
           skipPublish: joi.boolean(),
+          repoUrl: joi.string(),
+          repoUrlPrefix: joi.string()
         });
       },
     }
