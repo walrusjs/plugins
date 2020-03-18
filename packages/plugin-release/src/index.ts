@@ -1,19 +1,24 @@
-import { join } from 'path';
-import { Api } from '@walrus/types';
-import { ReleasePluginConfig } from '@walrus/types';
 import inquirer from 'inquirer';
-import { LernaInfo } from './types';
+import { Api, ReleasePluginConfig } from '@walrus/types';
+import {
+  exec,
+  logStep,
+  resolveLerna,
+  confirmVersion,
+  getNextVersion,
+  printErrorAndExit
+} from './utils';
+import { Mode } from './types';
+import lernaIndependentRelease from './release/lerna-independent';
 
 const defaultConfig: ReleasePluginConfig = {
-  mode: 'single',
-  publish: true
+  skipBuild: false,
+  skipPublish: false,
+  skipGitStatusCheck: false
 }
 
-const bumps = ['patch', 'minor', 'major', 'prerelease'];
-
 export default function(api: Api) {
-
-  const { semver, isLernaPackage } = api.utils;
+  const { semver, isLernaPackage, execa, chalk } = api.utils;
 
   api.describe({
     key: 'release',
@@ -21,72 +26,25 @@ export default function(api: Api) {
       default: defaultConfig,
       schema(joi) {
         return joi.object({
-          mode: joi.string()
+          skipBuild: joi.boolean(),
+          skipPublish: joi.boolean(),
         });
       },
     }
   });
 
-  async function getNextVersion(currentVersion: string) {
-    const versions = {};
-    bumps.forEach(b => { versions[b] = semver.inc(currentVersion, b as any) });
-
-    const bumpChoices = bumps.map(b => ({ name: `${b} (${versions[b]})`, value: b }));
-
-    const { bump, customVersion } = await inquirer.prompt([
-      {
-        name: 'bump',
-        message: 'Select release type:',
-        type: 'list',
-        choices: [
-          ...bumpChoices,
-          { name: 'custom', value: 'custom' }
-        ]
-      },
-      {
-        name: 'customVersion',
-        message: 'Input version:',
-        type: 'input',
-        when: answers => answers.bump === 'custom'
-      }
-    ]);
-
-    return customVersion || versions[bump];
-  }
-
-  async function confirmVersion(version: string) {
-    const { yes } = await inquirer.prompt([{
-      name: 'yes',
-      message: `Confirm releasing ${version}?`,
-      type: 'confirm'
-    }]);
-
-    return yes;
-  }
-
-  /**
-   * 获取lerna.json
-   * @param cwd
-   */
-  function resolveLerna(cwd: string): LernaInfo {
-    try {
-      return require(join(cwd, 'lerna.json'));
-    } catch (e) {
-      return {};
-    }
-  }
-
   function getCurrentVersion(
-    mode: ReleasePluginConfig['mode'] = 'single'
+    mode: Mode = 'single'
   ) {
     let version = '';
-    const lernaInfo = resolveLerna(api.cwd);
 
     switch(mode) {
       case 'single':
         version = api.pkg.version;
+        break;
       case 'lerna':
-        version = lernaInfo.version;
+        version = resolveLerna(api.cwd).version;
+        break;
     }
 
     return version || '';
@@ -97,12 +55,23 @@ export default function(api: Api) {
     alias: 'r',
     description: 'publish your project',
     fn: async ({ args }) => {
-      const { mode = 'single', publish } = api.config.release;
+      logStep('start');
+      let mode: Mode = 'single';
 
-      // 检查 mode=lerna 下是否为 lerna 项目
-      if (mode === 'lerna' && !isLernaPackage(api.cwd)) {
-        console.error(`非lerna项目，配置错误`);
-        return;
+      // 合并命令行中的配置
+      // 命令行配置优先级最高
+      const newConfig = Object.assign({}, api.config.release, args);
+      const { skipPublish } = newConfig;
+
+      // lerna 项目 确认是否转换发布类型
+      if (isLernaPackage(api.cwd)) {
+        const { yes } = await inquirer.prompt([{
+          name: 'yes',
+          message: `Whether to use lerna mode?`,
+          type: 'confirm'
+        }]);
+
+        yes && (mode = 'lerna');
       }
 
       const currentVersion = getCurrentVersion(mode);
@@ -110,48 +79,75 @@ export default function(api: Api) {
       // 发布项目不合法的一些情况
       if (
         mode === 'single' &&
-        publish &&
+        !skipPublish &&
         (api.pkg.private || !currentVersion)
       ) {
-        console.error(`配置不合法，项目无法发布`);
+        printErrorAndExit(`单项目&开启发布，项目私有或者版本不存在`);
         return;
       }
-
-      console.log(currentVersion);
 
       if (
         !(mode === 'lerna' && currentVersion === 'independent') &&
         !semver.valid(currentVersion)
       ) {
-        console.error(`无法获取当前版本，或版本不合法`);
+        printErrorAndExit(`多项目&同版本，版本不存在`);
         return;
       }
 
-      if (currentVersion === 'independent') {
-        console.log('请选择需要发布的子包');
+      // Check git status
+      if (!newConfig.skipGitStatusCheck) {
+        logStep('check git status');
+        const gitStatus = execa.sync('git', ['status', '--porcelain']).stdout;
+        if (gitStatus.length) {
+          printErrorAndExit(`Your git status is not clean. Aborting.`);
+        }
+      } else {
+        logStep(
+          'git status check is skipped, since --skip-git-status-check is supplied',
+        );
+      }
+
+      // Check npm registry
+      logStep('check npm registry');
+      const userRegistry = execa.sync('npm', ['config', 'get', 'registry']).stdout;
+      if (userRegistry.includes('https://registry.yarnpkg.com/')) {
+        printErrorAndExit(
+          `Release failed, please use ${chalk.blue('npm run release')}.`,
+        );
+      }
+      if (!userRegistry.includes('https://registry.npmjs.org/')) {
+        const registry = chalk.blue('https://registry.npmjs.org/');
+        printErrorAndExit(`Release failed, npm registry must be ${registry}.`);
+      }
+
+      // Build
+      if (!newConfig.skipBuild) {
+        logStep('build');
+        await exec('npm', ['run', 'build']);
+      } else {
+        logStep('build is skipped, since args.skipBuild is supplied');
+      }
+
+      // lerna 独立版本发布
+      if (mode === 'lerna' && currentVersion === 'independent') {
+        lernaIndependentRelease(api.cwd, newConfig);
         return;
       }
 
-      // 1. 获取需要发布的版本
+      // lerna 统一版本发布 或 单个库发布
+
       // 获取下一个需要发布的版本
       const version = await getNextVersion(currentVersion);
 
       // 检验版本是否合法
       if (!semver.valid(version)) {
-        console.log(`输入的版本(${version})格式不合法`);
+        printErrorAndExit(`输入的版本(${version})格式不合法`);
         return;
       }
 
       // 版本二次确认
       const result = await confirmVersion(version);
       if (!result) return;
-
-      console.log(version);
-      // 2. 更新 package.json
-
-      // 3. 提交代码
-
-      // 4.
     }
   });
 }

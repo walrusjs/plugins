@@ -2,11 +2,9 @@ import { Config } from '@walrus/types';
 
 const config: Config = {
   plugins: [
-    './packages/plugin-release/src/index.ts'
+    './packages/plugin-release/lib/index.js'
   ],
-  release: {
-    mode: 'lerna'
-  }
+  release: {}
 };
 
 export default config;
