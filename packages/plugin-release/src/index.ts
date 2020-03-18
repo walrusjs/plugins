@@ -4,17 +4,19 @@ import {
   exec,
   logStep,
   resolveLerna,
+  getChangelog,
   confirmVersion,
   getNextVersion,
   printErrorAndExit
 } from './utils';
+import { lernaIndependent, lernaUnity, single } from './release';
 import { Mode } from './types';
-import lernaIndependentRelease from './release/lerna-independent';
 
 const defaultConfig: ReleasePluginConfig = {
   skipBuild: false,
   skipPublish: false,
-  skipGitStatusCheck: false
+  skipGitStatusCheck: false,
+  repoUrlPrefix: 'https://github.com/'
 }
 
 export default function(api: Api) {
@@ -132,7 +134,7 @@ export default function(api: Api) {
 
       // lerna 独立版本发布
       if (mode === 'lerna' && currentVersion === 'independent') {
-        lernaIndependentRelease(api.cwd, newConfig);
+        lernaIndependent(api.cwd, newConfig);
         return;
       }
 
@@ -150,6 +152,21 @@ export default function(api: Api) {
       // 版本二次确认
       const result = await confirmVersion(version);
       if (!result) return;
+
+      // 获取changelog信息
+      if (newConfig.repoUrlPrefix && newConfig.repoUrl) {
+        // get release notes
+        logStep('get release notes');
+        const releaseNotes = await getChangelog(newConfig.repoUrlPrefix + newConfig.repoUrl);
+        console.log(releaseNotes(''));
+      }
+
+      if (mode === 'lerna') {
+        lernaUnity(api.cwd, newConfig);
+        return;
+      }
+
+      single(api.cwd, newConfig);
     }
   });
 }

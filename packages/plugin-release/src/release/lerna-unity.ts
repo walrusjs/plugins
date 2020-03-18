@@ -2,13 +2,14 @@ import { join } from 'path';
 import { execa, chalk } from '@birman/utils';
 import { ReleasePluginConfig } from '@walrus/types';
 import {
-  printErrorAndExit,
+  exec,
   logStep,
   packageExists,
-  exec,
   getPackages,
   isNextVersion,
-  getChangelog
+  getChangelog,
+  getLernaUpdated,
+  printErrorAndExit
 } from '../utils';
 
 const lernaCli = require.resolve('lerna/cli');
@@ -19,21 +20,8 @@ async function release(cwd: string, args: ReleasePluginConfig) {
   const releaseNotes = await getChangelog('');
   console.log(releaseNotes(''));
 
-  let updated = null;
-
-  if (!args.publishOnly) {
-    // Get updated packages
-    logStep('check updated packages');
-
-    const updatedStdout = execa.sync(lernaCli, ['changed']).stdout;
-
-    updated = updatedStdout
-      .split('\n')
-      .map(pkg => {
-        return pkg.split('/')[1];
-      })
-      .filter(Boolean);
-  }
+  // 获取更新的包
+  const updated = getLernaUpdated(args.publishOnly);
 
   if (!updated.length) {
     printErrorAndExit('Release failed, no updated package is updated.');
