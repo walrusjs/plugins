@@ -2,7 +2,11 @@
   "name": "@walrus/plugin-stylelint",
   "version": "1.0.0",
   "description": "walrus plugin stylelint",
-  "main": "index.js",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "lib"
+  ],
   "license": "MIT",
   "dependencies": {
     "stylelint": "^13.2.1",

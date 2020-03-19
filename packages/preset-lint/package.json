@@ -1,7 +1,11 @@
 {
   "name": "@walrus/preset-lint",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "lib"
+  ],
   "license": "MIT",
   "dependencies": {
     "@walrus/plugin-commitlint": "^1.0.0",

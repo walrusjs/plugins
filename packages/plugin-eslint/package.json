@@ -2,7 +2,11 @@
   "name": "@walrus/plugin-eslint",
   "version": "1.0.0",
   "description": "walrus plugin eslint",
-  "main": "index.js",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "lib"
+  ],
   "license": "MIT",
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "^2.23.0",

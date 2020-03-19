@@ -2,7 +2,11 @@
   "name": "@walrus/plugin-prettier",
   "version": "1.0.0",
   "description": "walrus plugin prettier",
-  "main": "index.js",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "lib"
+  ],
   "license": "MIT",
   "dependencies": {
     "prettier": "^1.19.1"

@@ -162,11 +162,11 @@ export default function(api: Api) {
       }
 
       if (mode === 'lerna') {
-        lernaUnity(api.cwd, newConfig);
+        lernaUnity(api.cwd, version, newConfig);
         return;
       }
 
-      single(api.cwd, newConfig);
+      single(api.cwd, version, newConfig);
     }
   });
 }
