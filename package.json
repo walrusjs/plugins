@@ -2,7 +2,7 @@
   "name": "@walrus/plugins",
   "private": true,
   "version": "1.0.0",
-  "description": "Official plugins and presets for walrus@2.",
+  "description": "Official plugins and presets for walrus@1.",
   "main": "index.js",
   "repository": "git@github.com:walrusjs/plugins.git",
   "author": "Walrus Team",
