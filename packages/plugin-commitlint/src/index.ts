@@ -1,4 +1,7 @@
+import commitLint from './commitlint';
 import { Api } from '@walrus/types';
+
+const pkg = require('../package.json');
 
 export default function(api: Api) {
   api.describe({
@@ -15,11 +18,17 @@ export default function(api: Api) {
 
   api.registerCommand({
     name: 'commitlint',
-    alias: 'r',
-    description: 'publish your project',
+    description: 'lint your commit messages',
     fn: async ({ args }) => {
-      console.log('commitlint');
-
+      commitLint(args._, Object.assign({}, args) as any).catch(
+        (err) =>
+          setTimeout(() => {
+            if (err.type === pkg.name) {
+              process.exit(1);
+            }
+            throw err;
+          })
+        );
     }
   })
 }
