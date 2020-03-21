@@ -34,14 +34,25 @@ export default function(api: Api) {
 
   api.registerCommand({
     name: 'prettier',
-    alias: 'r',
-    description: 'publish your project',
+    alias: 'p',
+    description: 'pretty your code',
+    options: {
+      '--staged': 'Pre-commit mode. Under this flag only staged files will be formatted, and they will be re-staged after formatting.',
+      '--no-restage': 'Use with the --staged flag to skip re-staging files after formatting.',
+      '--branch': 'When not in staged pre-commit mode, use this flag to compare changes with the specified branch.',
+      '--pattern': 'Filters the files for the given minimatch pattern.',
+      '--verbose': 'Outputs the name of each file right before it is proccessed. ',
+      '--bail': 'Prevent git commit if any files are fixed.',
+      '--check': `Check that files are correctly formatted, but don't format them.`
+    },
     fn: async ({ args }) => {
-      console.log(args);
+      const userConfig = api.config?.prettier || {};
+      // @ts-ignore
+      const pluginConfig = api.mergeConfig(userConfig, args);
 
       const prettyQuickResult = prettier(
         api,
-        Object.assign(defaultConfig, api.config.prettier, args, {
+        Object.assign(pluginConfig, {
           onFoundSinceRevision: (scm, revision) => {
             console.log(
               `🔍  Finding changed files since ${chalk.bold(scm)} revision ${chalk.bold(revision)}.`
