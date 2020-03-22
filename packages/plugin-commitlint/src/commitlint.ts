@@ -1,127 +1,139 @@
-import { PluginCommitLintConfig } from '@walrus/types';
-import { lodash } from '@birman/utils'
-import defaultOptions from './default-config';
+import stdin from 'get-stdin';
+import load from '@commitlint/load';
+import lint from '@commitlint/lint';
+import read from '@commitlint/read';
+import { lodash } from '@birman/utils';
 import {
   checkFromStdin,
+  normalizeFlags,
   checkFromRepository,
   getSeed,
   loadFormatter,
   selectParserOpts
 } from './utils';
 
-const load = require('@commitlint/load');
-const read = require('@commitlint/read');
-const lint = require('@commitlint/lint');
-const stdin = require('get-stdin');
-const pkg = require('../package.json');
+const pkg = require('../package');
+const { pick, isFunction } = lodash;
 
-export default async function commitLint(raw: string[] = [], config: PluginCommitLintConfig = {}) {
-  const options = Object.assign({}, defaultOptions, config);
+export default async function main(raw, options) {
+	const flags = normalizeFlags(options);
+	const fromStdin = checkFromStdin(raw, flags);
 
-  if (options.env) {
-    if (!(options.env in process.env)) {
-      throw new Error(
-        `Recieved '${options.env}' as value for --env, but environment variable '${options.env}' is not available globally`
-      );
-    }
-    options.edit = process.env[options.env];
-  }
+	const range = pick(flags, 'edit', 'from', 'to');
 
-  const fromStdin = checkFromStdin(raw, options);
+	const input = await (fromStdin ? stdin() : read(range, {cwd: flags.cwd}));
 
-  const range = lodash.pick(options, 'edit', 'from', 'to');
+	const messages = (Array.isArray(input) ? input : [input])
+		.filter(message => typeof message === 'string')
+		.filter(message => message.trim() !== '')
+		.filter(Boolean);
 
-  const input = await (fromStdin ? stdin() : read(range, { cwd: options.cwd }));
+	if (messages.length === 0 && !checkFromRepository(flags)) {
+		const err = new Error(
+			'[input] is required: supply via stdin, or --env or --edit or --from and --to'
+		);
+		err['type'] = pkg.name;
+		console.log(err.message);
+		throw err;
+	}
 
-  const messages = (Array.isArray(input) ? input : [input])
-    .filter((message) => typeof message === 'string')
-    .filter((message) => message.trim() !== '')
-    .filter(Boolean);
+	const loadOpts = {cwd: flags.cwd, file: flags.config};
+	const loaded = await load(getSeed(flags), loadOpts);
+	const parserOpts = selectParserOpts(loaded.parserPreset);
+	const opts = {
+		parserOpts: {},
+		plugins: {},
+		ignores: [],
+		defaultIgnores: true
+	};
+	if (parserOpts) {
+		opts.parserOpts = parserOpts;
+	}
+	if (loaded.plugins) {
+		opts.plugins = loaded.plugins;
+	}
+	if (loaded.ignores) {
+		opts.ignores = loaded.ignores;
+	}
+	if (loaded.defaultIgnores === false) {
+		opts.defaultIgnores = false;
+	}
+	const format = loadFormatter(loaded, flags);
 
-  if (messages.length === 0 && !checkFromRepository(options)) {
-    const err = new Error(
-      '[input] is required: supply via stdin, or --env or --edit or --from and --to'
-    );
-    console.log(err.message);
-    throw err;
-  }
+	// Strip comments if reading from `.git/COMMIT_EDIT_MSG`
+	if (range.edit) {
+		opts.parserOpts['commentChar'] = '#';
+	}
 
-  const loadOpts = {
-    cwd: options.cwd,
-    file: options.config
-  };
+	const results = await Promise.all(
+		messages.map(message => lint(message, loaded.rules, opts))
+	);
 
-  const loaded = await load(getSeed(options), loadOpts);
+	if (Object.keys(loaded.rules).length === 0) {
+		let input = '';
 
-  const parserOpts = selectParserOpts(loaded.parserPreset);
+		if (results.length !== 0) {
+			const originalInput = results[0].input;
+			input = originalInput;
+		}
 
-  const opts = {
-    parserOpts: {},
-    plugins: {},
-    ignores: [],
-    defaultIgnores: true
-  };
+		results.splice(0, results.length, {
+			valid: false,
+			errors: [
+				{
+					level: 2,
+					valid: false,
+					name: 'empty-rules',
+					message: [
+						'Please add rules to your `commitlint.config.js`',
+						'    - Getting started guide: https://git.io/fhHij',
+						'    - Example config: https://git.io/fhHip'
+					].join('\n')
+				}
+			],
+			warnings: [],
+			input
+		});
+	}
 
-  if (parserOpts) {
-    opts.parserOpts = parserOpts;
-  }
+	const report = results.reduce(
+		(info, result) => {
+			info.valid = result.valid ? info.valid : false;
+			info.errorCount += result.errors.length;
+			info.warningCount += result.warnings.length;
+			info.results.push(result);
 
-  if (loaded.plugins) {
-    opts.plugins = loaded.plugins;
-  }
+			return info;
+		},
+		{
+			valid: true,
+			errorCount: 0,
+			warningCount: 0,
+			results: []
+		}
+	);
 
-  if (loaded.ignores) {
-    opts.ignores = loaded.ignores;
-  }
+	const output = format(report, {
+		color: flags.color,
+		verbose: flags.verbose,
+		helpUrl: flags.helpUrl
+			? flags.helpUrl.trim()
+			: 'https://github.com/walrusjs/plugins/tree/master/packages/plugin-commitlint'
+	});
 
-  if (loaded.defaultIgnores === false) {
-    opts.defaultIgnores = false;
-  }
+	if (!flags.quiet && output !== '') {
+		console.log(output);
+	}
 
-  const format = loadFormatter(loaded, options);
-
-  // Strip comments if reading from `.git/COMMIT_EDIT_MSG`
-  if (range.edit) {
-    opts.parserOpts['commentChar'] = '#';
-  }
-
-  const lints = messages.map((message) => lint(message, loaded.rules, opts));
-
-  // @ts-ignore
-  const results = await Promise.all(lints);
-
-  const report = results.reduce(
-    (info, result) => {
-      info.valid = result.valid ? info.valid : false;
-      info.errorCount += result.errors.length;
-      info.warningCount += result.warnings.length;
-      info.results.push(result);
-
-      return info;
-    },
-    {
-      valid: true,
-      errorCount: 0,
-      warningCount: 0,
-      results: []
-    }
-  );
-
-  const output = format(report, {
-    color: options.color,
-    verbose: options.verbose,
-    helpUrl: options.helpUrl
-      ? options.helpUrl.trim()
-      : 'https://github.com/conventional-changelog/commitlint/#what-is-commitlint'
-  });
-
-  if (!output.quiet && output !== '') {
-    console.log(output);
-  }
-
-  if (!report.valid) {
-    const err = new Error(output);
-    err['type'] = pkg.name;
-    throw err;
-  }
+	if (!report.valid) {
+		const err = new Error(output);
+		err['type'] = pkg.name;
+		throw err;
+	}
 }
+
+// Catch unhandled rejections globally
+process.on('unhandledRejection', (reason, promise) => {
+	console.log('Unhandled Rejection at: Promise ', promise, ' reason: ', reason);
+	throw reason;
+});
