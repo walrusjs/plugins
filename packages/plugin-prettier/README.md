@@ -13,3 +13,39 @@ yarn add --dev @walrus/cli @walrus/plugin-prettier
 ```
 
 建议直接安装 [@walrus/preset-lint](https://github.com/walrusjs/plugins/tree/master/packages/preset-lint)
+
+## 📝 配置
+
+内置配置请查看 [prettier.config.js](https://github.com/walrusjs/plugins/blob/master/packages/plugin-prettier/src/prettier.config.js)
+
+## Flags
+
+### --staged 
+
+预提交模式，开启的情况下，已暂存的文件将被格式化，且格式化完成后将被重新暂存；
+
+### --no-restage
+
+与 `--staged` 一起使用可在格式化后跳过重新暂存文件
+
+### --pattern
+
+过滤给定的 [minimatch](https://github.com/isaacs/minimatch) 模式的文件。
+
+举例：
+
+```
+walrus prettier --pattern "**/*.*(js|jsx)"
+```
+
+### --verbose
+
+在处理每个文件之前输出文件的名称。 如果发生错误并且无法确定是哪个文件引起了问题，这将很有用。
+
+### --bail
+
+如果有固定文件，防止git commit。
+
+### --check
+
+检查文件格式是否正确，但不要格式化。

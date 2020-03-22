@@ -1,6 +1,5 @@
 import { readFileSync, writeFileSync } from 'fs';
 import * as prettier from 'prettier';
-import { ProcessFilesOptions } from '@walrus/types';
 import { join } from 'path';
 
 const processFiles = (directory: string, files: string[], opts: any = {}) => {

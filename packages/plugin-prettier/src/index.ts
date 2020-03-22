@@ -4,12 +4,11 @@ import { PluginPrettierConfig } from '@walrus/types';
 import prettier from './prettier';
 
 const defaultConfig: PluginPrettierConfig = {
-  staged: true,
   config: join(__dirname, 'prettier.config.js')
 };
 
 export default function(api: Api) {
-  const { chalk } = api.utils;
+  const { chalk, lodash } = api.utils;
 
   api.describe({
     key: 'prettier',
@@ -37,18 +36,25 @@ export default function(api: Api) {
     alias: 'p',
     description: 'pretty your code',
     options: {
-      '--staged': 'Pre-commit mode. Under this flag only staged files will be formatted, and they will be re-staged after formatting.',
+      '--staged':
+        'Pre-commit mode. Under this flag only staged files will be formatted, and they will be re-staged after formatting.',
       '--no-restage': 'Use with the --staged flag to skip re-staging files after formatting.',
-      '--branch': 'When not in staged pre-commit mode, use this flag to compare changes with the specified branch.',
+      '--branch':
+        'When not in staged pre-commit mode, use this flag to compare changes with the specified branch.',
       '--pattern': 'Filters the files for the given minimatch pattern.',
       '--verbose': 'Outputs the name of each file right before it is proccessed. ',
       '--bail': 'Prevent git commit if any files are fixed.',
       '--check': `Check that files are correctly formatted, but don't format them.`
     },
     fn: async ({ args }) => {
-      const userConfig = api.config?.prettier || {};
-      // @ts-ignore
+      const userConfig = lodash.merge({}, api.config.lint, api.config.prettier);
+
+      console.log(api.config);
+      console.log(args);
+
       const pluginConfig = api.mergeConfig(userConfig, args);
+
+      console.log(pluginConfig);
 
       const prettyQuickResult = prettier(
         api,
