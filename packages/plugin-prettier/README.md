@@ -2,6 +2,8 @@
   @walrus/plugin-prettier
 </h1>
 
+> 封装 [prettier](https://github.com/prettier/prettier)
+
 ## 🏗 安装
 
 ```
@@ -19,6 +21,8 @@ yarn add --dev @walrus/cli @walrus/plugin-prettier
 内置配置请查看 [prettier.config.js](https://github.com/walrusjs/plugins/blob/master/packages/plugin-prettier/src/prettier.config.js)
 
 ## 📝 配置
+
+**注意：** 优先级 Flags >> config prettier >> config lint
 
 可在 `.walrusrc.ts`、`walrus.config.ts`添加如下配置
 
