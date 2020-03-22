@@ -35,9 +35,9 @@ const prettier = (api: Api, options: PluginPrettierConfig = {}) => {
 
   onFoundSinceRevision && onFoundSinceRevision(scm.name, revision);
 
-  const rootIgnorer = api.createIgnorer(directory);
+  const rootIgnorer = api.createIgnorer(api.getIgnore(api.cwd));
   const cwdIgnorer =
-    currentDirectory !== directory ? api.createIgnorer(currentDirectory) : () => true;
+    currentDirectory !== directory ? api.createIgnorer(api.getIgnore(currentDirectory)) : () => true;
 
   const changedFiles = scm
     .getChangedFiles(directory, revision, staged)
