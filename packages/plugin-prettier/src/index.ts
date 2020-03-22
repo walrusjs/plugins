@@ -49,12 +49,7 @@ export default function(api: Api) {
     fn: async ({ args }) => {
       const userConfig = lodash.merge({}, api.config.lint, api.config.prettier);
 
-      console.log(api.config);
-      console.log(args);
-
       const pluginConfig = api.mergeConfig(userConfig, args);
-
-      console.log(pluginConfig);
 
       const prettyQuickResult = prettier(
         api,

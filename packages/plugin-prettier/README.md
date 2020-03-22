@@ -14,13 +14,35 @@ yarn add --dev @walrus/cli @walrus/plugin-prettier
 
 建议直接安装 [@walrus/preset-lint](https://github.com/walrusjs/plugins/tree/master/packages/preset-lint)
 
-## 📝 配置
+## 🌟 Prettier 配置
 
 内置配置请查看 [prettier.config.js](https://github.com/walrusjs/plugins/blob/master/packages/plugin-prettier/src/prettier.config.js)
 
-## Flags
+## 📝 配置
 
-### --staged 
+可在 `.walrusrc.ts`、`walrus.config.ts`添加如下配置
+
+```
+import { Config } from '@walrus/types';
+
+const config: Config = {
+  // ...
+  prettier: {
+    staged: boolean;
+    restage: boolean;
+    pattern: string;
+    verbose: boolean;
+    bail: boolean;
+    check: boolean;
+  }
+};
+
+export default config;
+```
+
+## ⚡ Flags
+
+### --staged
 
 预提交模式，开启的情况下，已暂存的文件将被格式化，且格式化完成后将被重新暂存；
 
@@ -44,7 +66,7 @@ walrus prettier --pattern "**/*.*(js|jsx)"
 
 ### --bail
 
-如果有固定文件，防止git commit。
+如果有固定文件，防止 git commit。
 
 ### --check
 
