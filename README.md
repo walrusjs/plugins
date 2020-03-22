@@ -2,7 +2,7 @@
   Walrus Plugins
 </h1>
 
-> 🍣 Official plugins and presets for walrus
+🍣 Official plugins and presets for walrus
 
 插件列表
 

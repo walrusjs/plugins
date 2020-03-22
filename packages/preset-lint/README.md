@@ -2,7 +2,7 @@
   @walrus/preset-lint
 </h1>
 
-lint 插件集，包含以下插件
+该插件集包含以下插件:
 
 * [@walrus/plugin-commitlint](https://github.com/walrusjs/plugins/tree/master/packages/plugin-commitlint)
 * [@walrus/plugin-eslint](https://github.com/walrusjs/plugins/tree/master/packages/plugin-eslint)
@@ -19,7 +19,7 @@ npm install --save --dev @walrus/cli @walrus/preset-lint
 yarn add --dev @walrus/cli @walrus/preset-lint
 ```
 
-## 🛡提供命令
+## 🛡命令
 
 ```
 # 检查commit message
@@ -37,6 +37,8 @@ walrus stylelint
 
 ## 📝 配置
 
+> `plugin-prettier]`、`plugin-eslint`、`plugin-stylelint` 会读取这个配置
+
 可在 `.walrusrc.ts`、`walrus.config.ts`添加如下配置
 
 ```
@@ -46,6 +48,7 @@ const config: Config = {
   // ...
   lint: {
     // 暂存模式，只处理暂存的文件，处理完毕后将重新暂存
+    // 默认为 true
     staged: boolean;
     // 设置为false，处理完文件，不重新暂存
     restage: boolean;
