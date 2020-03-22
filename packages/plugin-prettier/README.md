@@ -16,6 +16,13 @@ yarn add --dev @walrus/cli @walrus/plugin-prettier
 
 建议直接安装 [@walrus/preset-lint](https://github.com/walrusjs/plugins/tree/master/packages/preset-lint)
 
+## 🛡命令
+
+```
+# 美化代码
+walrus prettier
+```
+
 ## 🌟 Prettier 配置
 
 内置配置请查看 [prettier.config.js](https://github.com/walrusjs/plugins/blob/master/packages/plugin-prettier/src/prettier.config.js)

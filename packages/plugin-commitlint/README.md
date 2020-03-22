@@ -54,3 +54,5 @@ export default config;
 ## ⚡ Flags
 
 ### --edit
+
+从指定文件读取最后的提交消息，或回退到./.git/COMMIT_EDITMSG

@@ -25,7 +25,7 @@ yarn add --dev @walrus/cli @walrus/preset-lint
 # 检查commit message
 walrus commitlint
 
-# 检查 javascript/typesxcript 文件
+# 检查 javascript/typescript 文件
 walrus eslint
 
 # 美化代码
