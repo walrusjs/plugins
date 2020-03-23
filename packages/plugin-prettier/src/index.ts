@@ -7,7 +7,7 @@ const defaultConfig: PluginPrettierConfig = {
   config: join(__dirname, 'prettier.config.js')
 };
 
-export default function(api: Api) {
+export default function (api: Api) {
   const { chalk, lodash } = api.utils;
 
   api.describe({
@@ -48,6 +48,10 @@ export default function(api: Api) {
     },
     fn: async ({ args }) => {
       const userConfig = lodash.merge({}, api.config.lint, api.config.prettier);
+
+      if (!('staged' in userConfig)) {
+        userConfig.staged = true;
+      }
 
       const pluginConfig = api.mergeConfig(userConfig, args);
 
