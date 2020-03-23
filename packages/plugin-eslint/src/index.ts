@@ -1,7 +1,7 @@
-import { Api, PluginCommitLintConfig } from '@walrus/types';
+import { Api } from '@walrus/types';
 import lint from './eslint';
 
-const defaultConfig: PluginCommitLintConfig = {};
+const defaultConfig = {};
 
 export default function(api: Api) {
   api.describe({

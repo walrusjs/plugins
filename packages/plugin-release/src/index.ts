@@ -1,5 +1,5 @@
 import inquirer from 'inquirer';
-import { Api, ReleasePluginConfig } from '@walrus/types';
+import { Api } from '@walrus/types';
 import {
   exec,
   logStep,
@@ -10,7 +10,7 @@ import {
   printErrorAndExit
 } from './utils';
 import { lernaIndependent, lernaUnity, single } from './release';
-import { Mode } from './types';
+import { Mode, ReleasePluginConfig } from './types';
 
 const defaultConfig: ReleasePluginConfig = {
   skipBuild: false,
