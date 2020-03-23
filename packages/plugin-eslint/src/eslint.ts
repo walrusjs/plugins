@@ -1,16 +1,19 @@
+import { join } from 'path';
 import { Api } from '@walrus/types';
-import { CLIEngine } from 'eslint';
-import { PluginEslintConfig } from './types';
+import Linter from './linter';
+import { DEFAULT_PATTERNS } from './linter/config';
 
-const lint = (api: Api, args) => {
-  const { lodash, chalk } = api.utils;
-  const config = lodash.merge({}, api.config.lint, api.config.eslint);
+const eslint = (api: Api, args) => {
+  const { lodash } = api.utils;
+  const userConfig = lodash.merge({}, api.config.lint, api.config.eslint);
 
-  if (!('staged' in config)) {
-    config.staged = true;
+  if (!('staged' in userConfig)) {
+    userConfig.staged = true;
   }
 
-  const { staged, branch, since, pattern, files } = config;
+  const { staged, branch, since, pattern, ...otherConfig } = userConfig;
+  const config = api.mergeConfig(otherConfig, args);
+
   const currentDirectory = api.cwd;
   const scm = api.scm(currentDirectory);
 
@@ -26,7 +29,7 @@ const lint = (api: Api, args) => {
     currentDirectory !== directory
       ? api.createIgnorer(api.getIgnore(currentDirectory))
       : () => true;
-  const esIgnorer = api.createIgnorer(['**/*.ts', '**/*.js', '**/*.jsx', '**/*.tsx']);
+  const esIgnorer = api.createIgnorer(DEFAULT_PATTERNS);
 
   const changedFiles = scm
     .getChangedFiles(directory, revision, staged)
@@ -46,21 +49,19 @@ const lint = (api: Api, args) => {
 
   const wasFullyStaged = (f) => unstagedFiles.indexOf(f) < 0;
 
-  const cli = new CLIEngine({
-    envs: ["browser"],
-    useEslintrc: false,
-    rules: {
-      semi: 2
+  const linter = new Linter({
+    api,
+    ...config,
+    eslintConfig: {
+      configFile: join(__dirname, './config/eslint.react-typescript.config.js')
     }
   });
 
-  console.log(changedFiles);
-
-  const report = cli.executeOnFiles(changedFiles);
-
-  const formatter = cli.getFormatter();
-
-  console.log(formatter(report.results));
+  if (!staged) {
+    linter.lintFiles(args._);
+  } else {
+    linter.lintFiles(changedFiles);
+  }
 };
 
-export default lint;
+export default eslint;

@@ -2877,6 +2877,11 @@
   resolved "https://registry.yarnpkg.com/@types/debug/-/debug-4.1.5.tgz#b14efa8852b7768d898906613c23f688713e02cd"
   integrity sha512-Q1y515GcOdTHgagaVFhHnIFQ38ygs/kmxdNpvpou+raI9UO3YZcHDngBSYKQklcKlvA7iuQlmIKbzvmxcOE9CQ==
 
+"@types/deglob@^2.1.1":
+  version "2.1.1"
+  resolved "https://registry.npm.taobao.org/@types/deglob/download/@types/deglob-2.1.1.tgz#990318dcf7a820c95f357ba4fd39307fc66d57ff"
+  integrity sha1-mQMY3PeoIMlfNXuk/Tkwf8ZtV/8=
+
 "@types/eslint-visitor-keys@^1.0.0":
   version "1.0.0"
   resolved "https://registry.npm.taobao.org/@types/eslint-visitor-keys/download/@types/eslint-visitor-keys-1.0.0.tgz#1ee30d79544ca84d68d4b3cdb0af4f205663dd2d"
@@ -4950,6 +4955,11 @@ dateformat@^3.0.0:
   resolved "https://registry.yarnpkg.com/dateformat/-/dateformat-3.0.3.tgz#a6e37499a4d9a9cf85ef5872044d62901c9889ae"
   integrity sha512-jyCETtSl3VMZMWeRo7iY1FL19ges1t55hMo5yaam4Jrsm5EPL89UQkoQRyiI+Yf4k8r2ZpdngkV8hr1lIdjb3Q==
 
+debug-log@^1.0.0:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/debug-log/-/debug-log-1.0.1.tgz#2307632d4c04382b8df8a32f70b895046d52745f"
+  integrity sha1-IwdjLUwEOCuN+KMvcLiVBG1SdF8=
+
 debug@3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/debug/-/debug-3.1.0.tgz#5bb5a0672628b64149566ba16819e61518c67261"
@@ -5080,6 +5090,18 @@ define-property@^2.0.2:
   dependencies:
     is-descriptor "^1.0.2"
     isobject "^3.0.1"
+
+deglob@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/deglob/-/deglob-4.0.1.tgz#0685c6383992fd6009be10653a2b1116696fad55"
+  integrity sha512-/g+RDZ7yf2HvoW+E5Cy+K94YhgcFgr6C8LuHZD1O5HoNPkf3KY6RfXJ0DBGlB/NkLi5gml+G9zqRzk9S0mHZCg==
+  dependencies:
+    find-root "^1.0.0"
+    glob "^7.0.5"
+    ignore "^5.0.0"
+    pkg-config "^1.1.0"
+    run-parallel "^1.1.2"
+    uniq "^1.0.1"
 
 delayed-stream@~1.0.0:
   version "1.0.0"
@@ -5889,6 +5911,11 @@ find-cache-dir@^3.0.0:
     make-dir "^3.0.2"
     pkg-dir "^4.1.0"
 
+find-root@^1.0.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/find-root/-/find-root-1.1.0.tgz#abcfc8ba76f708c42a97b3d685b7e9450bfb9ce4"
+  integrity sha512-NKfW6bec6GfKc0SGx1e07QZY9PE99u0Bft/0rzSD5k3sO/vwkVUpDUKVm5Gpp5Ue3YfShPFTX2070tDs5kB9Ng==
+
 find-up@^1.0.0:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/find-up/-/find-up-1.1.2.tgz#6b2e9822b1a2ce0a60ab64d610eccad53cb24d0f"
@@ -6682,7 +6709,7 @@ ignore@^4.0.3, ignore@^4.0.6:
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-4.0.6.tgz#750e3db5862087b4737ebac8207ffd1ef27b25fc"
   integrity sha512-cyFDKrqc/YdcWFniJhzI42+AzS+gNwmUzOSFcRCQYwySuBBBy/KjuxWLZ/FHEH6Moq1NizMOBWyTcv8O4OZIMg==
 
-ignore@^5.0.4, ignore@^5.1.4:
+ignore@^5.0.0, ignore@^5.0.4, ignore@^5.1.4:
   version "5.1.4"
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-5.1.4.tgz#84b7b3dbe64552b6ef0eca99f6743dbec6d97adf"
   integrity sha512-MzbUSahkTW1u7JpKKjY7LCARd1fU5W2rLdxlM4kdkayuCwZImjkpluF9CM1aLewYJguPDqewLam18Y6AU69A8A==
@@ -9650,6 +9677,15 @@ pkg-conf@^2.1.0:
     find-up "^2.0.0"
     load-json-file "^4.0.0"
 
+pkg-config@^1.1.0:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/pkg-config/-/pkg-config-1.1.1.tgz#557ef22d73da3c8837107766c52eadabde298fe4"
+  integrity sha1-VX7yLXPaPIg3EHdmxS6tq94pj+Q=
+  dependencies:
+    debug-log "^1.0.0"
+    find-root "^1.0.0"
+    xtend "^4.0.1"
+
 pkg-dir@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/pkg-dir/-/pkg-dir-3.0.0.tgz#2749020f239ed990881b1f71210d51eb6523bea3"
@@ -11062,7 +11098,7 @@ run-async@^2.2.0, run-async@^2.4.0:
   dependencies:
     is-promise "^2.1.0"
 
-run-parallel@^1.1.9:
+run-parallel@^1.1.2, run-parallel@^1.1.9:
   version "1.1.9"
   resolved "https://registry.yarnpkg.com/run-parallel/-/run-parallel-1.1.9.tgz#c9dd3a7cf9f4b2c4b6244e173a6ed866e61dd679"
   integrity sha512-DEqnSRTDw/Tc3FXf49zedI638Z9onwUotBMiUFKmrO2sdFKIbXamXGQ3Axd4qgphxKB4kw/qP1w5kTxnfU1B9Q==
