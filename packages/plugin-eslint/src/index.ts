@@ -1,10 +1,14 @@
-import { Api } from '@walrus/types';
+import { Api, PluginCommitLintConfig } from '@walrus/types';
+import lint from './eslint';
+import { PluginEslintConfig } from './types';
+
+const defaultConfig: PluginCommitLintConfig = {};
 
 export default function(api: Api) {
   api.describe({
     key: 'eslint',
     config: {
-      default: {},
+      default: defaultConfig,
       schema(joi) {
         return joi.object({
 
@@ -15,11 +19,9 @@ export default function(api: Api) {
 
   api.registerCommand({
     name: 'eslint',
-    alias: 'r',
     description: 'publish your project',
     fn: async ({ args }) => {
-      console.log('eslint');
-
+        lint(api, args);
     }
   })
 }

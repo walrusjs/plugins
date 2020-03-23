@@ -9,6 +9,7 @@
   ],
   "license": "MIT",
   "dependencies": {
+    "@types/eslint": "^6.1.8",
     "@typescript-eslint/eslint-plugin": "^2.24.0",
     "@typescript-eslint/parser": "^2.24.0",
     "@walrus/eslint-config": "^1.0.0",
