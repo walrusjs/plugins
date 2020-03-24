@@ -2,34 +2,24 @@ import { join, dirname } from 'path';
 import { CLIEngine } from 'eslint';
 import deglob from 'deglob';
 import { Api } from '@walrus/types';
+import { PluginEslintConfig } from '../types';
 import { HOME_OR_TMP, DEFAULT_IGNORE, DEFAULT_PATTERNS } from './config';
 
-export interface LinterOptions {
-  api?: Api;
-  // 是否开启自动修复
-  fix?: boolean;
-  version?: string;
-  eslintConfig?: CLIEngine.Options;
-  // 需要忽略的文件
-  envs?: string[];
-  ignore?: string[];
-  globals?: string[];
-  plugins?: string[];
-  parser?: string;
-  disabledDefaultIgnore?: boolean;
-}
-
 class Linter {
+  private api: Api;
   private cwd: string;
-  private utils: Api['utils'];
-  private customOpts: LinterOptions;
+  private args: any;
+  private oldOpts: PluginEslintConfig;
+  private customOpts: PluginEslintConfig;
   private eslintConfig: CLIEngine.Options;
 
-  constructor(opts: LinterOptions) {
-    const { api } = opts;
+  constructor(opts: PluginEslintConfig & { api: Api }, args) {
+    const { api, ...oldOpts } = opts;
 
+    this.api = opts.api;
+    this.args = args;
+    this.oldOpts = oldOpts;
     this.cwd = api.cwd || process.cwd();
-    this.utils = api.utils;
 
     const m = opts.version && opts.version.match(/^(\d+)\./);
     const majorVersion = (m && m[1]) || '0';
@@ -59,7 +49,7 @@ class Linter {
 
   lintFiles = (files: string[]) => {
     const self = this;
-    const { utils: { lodash, chalk } } = self;
+    const { utils: { lodash, chalk } } = self.api;
 
     if (lodash.isString(files)) {
       files = [files];
@@ -102,9 +92,50 @@ class Linter {
     });
   }
 
-  parseOpts = (opts: LinterOptions = {}) => {
+  getChangedFiles = () => {
+    const { staged, branch, since, pattern } = this.oldOpts;
+
+    const currentDirectory = this.api.cwd;
+    const scm = this.api.scm(currentDirectory);
+
+    if (!scm) {
+      throw new Error('Unable to detect a source control manager.');
+    }
+
+    const directory = scm.rootDirectory;
+    const revision = since || scm.getSinceRevision(directory, { staged, branch });
+
+    const rootIgnorer = this.api.createIgnorer(this.api.getIgnore(this.api.cwd));
+    const cwdIgnorer =
+      currentDirectory !== directory
+        ? this.api.createIgnorer(this.api.getIgnore(currentDirectory))
+        : () => true;
+    const esIgnorer = this.api.createIgnorer(DEFAULT_PATTERNS);
+
+    const changedFiles = scm
+      .getChangedFiles(directory, revision, staged)
+      .filter(this.api.createMatcher(pattern))
+      .filter(rootIgnorer)
+      .filter(cwdIgnorer)
+      .filter((item) => !esIgnorer(item));
+
+    const unstagedFiles = staged
+      ? scm
+          .getUnstagedChangedFiles(directory)
+          .filter(this.api.createMatcher(pattern))
+          .filter(rootIgnorer)
+          .filter(cwdIgnorer)
+          .filter((item) => !esIgnorer(item))
+      : [];
+
+    const wasFullyStaged = (f) => unstagedFiles.indexOf(f) < 0;
+
+    return changedFiles;
+  }
+
+  parseOpts = (opts: PluginEslintConfig = {}) => {
     const self = this;
-    const { utils: { lodash } } = self;
+    const { utils: { lodash } } = self.api;
 
     opts = Object.assign({}, opts);
     opts.eslintConfig = Object.assign({}, self.eslintConfig);
@@ -164,6 +195,14 @@ class Linter {
     }
 
     return opts;
+  }
+
+  run() {
+    if (this.oldOpts.staged) {
+      this.lintFiles(this.getChangedFiles());
+    } else {
+      this.lintFiles(this.args._ || []);
+    }
   }
 }
 

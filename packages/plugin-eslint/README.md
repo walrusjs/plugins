@@ -2,6 +2,8 @@
   @walrus/plugin-eslint
 </h1>
 
+> eslint规则使用 [eslint-config-alloy](https://github.com/AlloyTeam/eslint-config-alloy)
+
 ## 🏗 安装
 
 ```
