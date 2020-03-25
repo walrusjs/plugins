@@ -28,6 +28,7 @@ export default function(api: Api) {
       default: defaultConfig,
       schema(joi) {
         return joi.object({
+          org: joi.string(),
           skipBuild: joi.boolean(),
           skipPublish: joi.boolean(),
           repoUrl: joi.string(),
@@ -154,16 +155,18 @@ export default function(api: Api) {
       const result = await confirmVersion(version);
       if (!result) return;
 
+      let releaseNotes;
+
       // 获取changelog信息
       if (newConfig.repoUrlPrefix && newConfig.repoUrl) {
         // get release notes
         logStep('get release notes');
-        const releaseNotes = await getChangelog(newConfig.repoUrlPrefix + newConfig.repoUrl);
+        releaseNotes = await getChangelog(newConfig.repoUrlPrefix + newConfig.repoUrl);
         console.log(releaseNotes(''));
       }
 
       if (mode === 'lerna') {
-        lernaUnity(api.cwd, version, newConfig);
+        lernaUnity(api.cwd, version, releaseNotes, newConfig);
         return;
       }
 

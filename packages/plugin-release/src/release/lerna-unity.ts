@@ -1,61 +1,106 @@
 import { join } from 'path';
 import { writeFileSync } from 'fs';
 import { execa, chalk } from '@birman/utils';
-import { ReleasePluginConfig } from '@walrus/types';
 import {
   exec,
   logStep,
-  packageExists,
   getPackages,
   isNextVersion,
-  getChangelog,
   getLernaUpdated,
   printErrorAndExit
 } from '../utils';
+import { ReleasePluginConfig } from '../types';
 
 const lernaCli = require.resolve('lerna/cli');
+const newGithubReleaseUrl = require('new-github-release-url');
 
-async function release(cwd: string, version: string, args: ReleasePluginConfig) {
-  // get release notes
-  logStep('get release notes');
-  const releaseNotes = await getChangelog('');
-  console.log(releaseNotes(''));
+async function release(
+  cwd: string,
+  currVersion: string,
+  releaseNotes: any,
+  args: ReleasePluginConfig
+) {
+  let updated = null;
 
-  // 获取更新的包
-  const updated = getLernaUpdated(args.publishOnly);
+  if (!args.publishOnly) {
+    logStep('check updated packages');
+    const updatedStdout = execa.sync(lernaCli, ['changed']).stdout;
+    updated = updatedStdout
+      .split('\n')
+      .map((pkg) => {
+        if (pkg === 'umi') return pkg;
+        else return pkg.split('/')[1];
+      })
+      .filter(Boolean);
+    if (!updated.length) {
+      printErrorAndExit('Release failed, no updated package is updated.');
+    }
 
-  if (!updated.length) {
-    printErrorAndExit('Release failed, no updated package is updated.');
+    // Clean
+    logStep('clean');
+
+    // Bump version
+    logStep('bump version with lerna version');
+    await exec(lernaCli, [
+      'version',
+      currVersion,
+      '--exact',
+      '--no-commit-hooks',
+      '--no-git-tag-version',
+      '--no-push',
+    ]);
+
+    // Commit
+    const commitMessage = `release: v${currVersion}`;
+    logStep(`git commit with ${chalk.blue(commitMessage)}`);
+    await exec('git', ['commit', '--all', '--message', commitMessage]);
+
+    // Git Tag
+    logStep(`git tag v${currVersion}`);
+    await exec('git', ['tag', `v${currVersion}`]);
+
+    // Push
+    logStep(`git push`);
+    await exec('git', ['push', 'origin', 'master', '--tags']);
   }
 
-  // Clean
-  logStep('clean');
+  const pkgs = args.publishOnly ? getPackages(cwd) : updated;
+  logStep(`publish packages: ${chalk.blue(pkgs.join(', '))}`);
+  const isNext = isNextVersion(currVersion);
 
-  // Bump version
-  logStep('bump version with lerna version');
-  await exec(lernaCli, [
-    'version',
-    '--exact',
-    '--no-commit-hooks',
-    '--no-git-tag-version',
-    '--no-push',
-  ]);
+  pkgs
+    .forEach((pkg, index) => {
+      const pkgPath = join(cwd, 'packages', pkg);
+      const { name, version } = require(join(pkgPath, 'package.json'));
+      if (version === currVersion) {
+        console.log(
+          `[${index + 1}/${pkgs.length}] Publish package ${name} ${
+            isNext ? 'with next tag' : ''
+          }`,
+        );
+        const cliArgs = isNext ? ['publish', '--tag', 'next'] : ['publish'];
+        const { stdout } = execa.sync('npm', cliArgs, {
+          cwd: pkgPath,
+        });
+        console.log(stdout);
+      }
+    });
 
-  // Sync version to root package.json
-  logStep('sync version to root package.json');
-  const rootPkg = require(join(cwd, 'package.json'));
-  Object.keys(rootPkg.devDependencies).forEach(name => {
-    if (name.startsWith('@umijs/') && !name.startsWith('@umijs/p')) {
-      rootPkg.devDependencies[name] = version;
-    }
-  });
-  writeFileSync(
-    join(__dirname, '..', 'package.json'),
-    JSON.stringify(rootPkg, null, 2) + '\n',
-    'utf-8',
-  );
+  if (releaseNotes && args.repoUrlPrefix && args.repoUrl) {
+    logStep('create github release');
+    const tag = `v${currVersion}`;
+    const changelog = releaseNotes(tag);
+    console.log(changelog);
+    const url = newGithubReleaseUrl({
+      repoUrl: args.repoUrlPrefix + args.repoUrl,
+      tag,
+      body: changelog,
+      isPrerelease: isNext,
+    });
+    await open(url);
+  }
 
-
+  logStep('done');
 }
 
 export default release;
