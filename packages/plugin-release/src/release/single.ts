@@ -18,9 +18,6 @@ async function release(cwd: string, version: string, args: ReleasePluginConfig) 
     'utf-8',
   );
 
-  console.log(version);
-  return;
-
   // Commit
   const commitMessage = `release: v${version}`;
   logStep(`git commit with ${chalk.blue(commitMessage)}`);
@@ -34,7 +31,11 @@ async function release(cwd: string, version: string, args: ReleasePluginConfig) 
   logStep(`git push`);
   await exec('git', ['push', 'origin', 'master', '--tags']);
 
+  logStep(`npm pulish`);
+  // publish
+  await exec('npm', ['pulish']);
 
+  logStep('done');
 }
 
 export default release;

@@ -31,7 +31,8 @@ export default function(api: Api) {
           skipBuild: joi.boolean(),
           skipPublish: joi.boolean(),
           repoUrl: joi.string(),
-          repoUrlPrefix: joi.string()
+          repoUrlPrefix: joi.string(),
+          skipGitStatusCheck: joi.boolean()
         });
       },
     }
@@ -111,7 +112,7 @@ export default function(api: Api) {
         );
       }
 
-      // Check npm registry
+      // Check npm registryre
       logStep('check npm registry');
       const userRegistry = execa.sync('npm', ['config', 'get', 'registry']).stdout;
       if (userRegistry.includes('https://registry.yarnpkg.com/')) {

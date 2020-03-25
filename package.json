@@ -1,6 +1,6 @@
 {
   "name": "@walrus/plugins",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Official plugins and presets for walrus@1.",
   "main": "index.js",
   "repository": "git@github.com:walrusjs/plugins.git",
