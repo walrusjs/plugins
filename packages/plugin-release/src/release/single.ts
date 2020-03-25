@@ -1,8 +1,8 @@
 import { join } from 'path';
 import { writeFileSync } from 'fs';
 import { chalk } from '@birman/utils';
-import { ReleasePluginConfig } from '@walrus/types';
 import { exec, logStep } from '../utils';
+import { ReleasePluginConfig } from '../types';
 
 
 async function release(cwd: string, version: string, args: ReleasePluginConfig) {
@@ -17,6 +17,9 @@ async function release(cwd: string, version: string, args: ReleasePluginConfig) 
     JSON.stringify(rootPkg, null, 2) + '\n',
     'utf-8',
   );
+
+  console.log(version);
+  return;
 
   // Commit
   const commitMessage = `release: v${version}`;
