@@ -1,6 +1,5 @@
 import { join } from 'path';
 import { execa, chalk } from '@birman/utils';
-import { ReleasePluginConfig } from '@walrus/types';
 import {
   printErrorAndExit,
   logStep,
@@ -10,6 +9,7 @@ import {
   isNextVersion,
   getLernaUpdated
 } from '../utils';
+import { ReleasePluginConfig } from '../types';
 
 const lernaCli = require.resolve('lerna/cli');
 

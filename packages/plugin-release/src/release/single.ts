@@ -2,10 +2,9 @@ import { join } from 'path';
 import { writeFileSync } from 'fs';
 import { chalk } from '@birman/utils';
 import { exec, logStep } from '../utils';
-import { ReleasePluginConfig } from '../types';
 
 
-async function release(cwd: string, version: string, args: ReleasePluginConfig) {
+async function release(cwd: string, version: string) {
   const pkgPath = join(cwd, 'package.json');
 
   // Sync version to package.json
@@ -33,7 +32,7 @@ async function release(cwd: string, version: string, args: ReleasePluginConfig) 
 
   logStep(`npm pulish`);
   // publish
-  await exec('npm', ['pulish']);
+  await exec('npm', ['publish']);
 
   logStep('done');
 }
