@@ -1,17 +1,16 @@
 import { join } from 'path';
-import { writeFileSync } from 'fs';
 import { execa, chalk } from '@birman/utils';
 import {
   exec,
   logStep,
   getPackages,
   isNextVersion,
-  getLernaUpdated,
   printErrorAndExit
 } from '../utils';
 import { ReleasePluginConfig } from '../types';
 
 const lernaCli = require.resolve('lerna/cli');
+const open = require('open');
 const newGithubReleaseUrl = require('new-github-release-url');
 
 async function release(
@@ -28,8 +27,7 @@ async function release(
     updated = updatedStdout
       .split('\n')
       .map((pkg) => {
-        if (pkg === 'umi') return pkg;
-        else return pkg.split('/')[1];
+        return pkg.split('/')[1];
       })
       .filter(Boolean);
     if (!updated.length) {
@@ -64,27 +62,30 @@ async function release(
     await exec('git', ['push', 'origin', 'master', '--tags']);
   }
 
-  const pkgs = args.publishOnly ? getPackages(cwd) : updated;
-  logStep(`publish packages: ${chalk.blue(pkgs.join(', '))}`);
   const isNext = isNextVersion(currVersion);
 
-  pkgs
-    .forEach((pkg, index) => {
-      const pkgPath = join(cwd, 'packages', pkg);
-      const { name, version } = require(join(pkgPath, 'package.json'));
-      if (version === currVersion) {
-        console.log(
-          `[${index + 1}/${pkgs.length}] Publish package ${name} ${
-            isNext ? 'with next tag' : ''
-          }`,
-        );
-        const cliArgs = isNext ? ['publish', '--tag', 'next'] : ['publish'];
-        const { stdout } = execa.sync('npm', cliArgs, {
-          cwd: pkgPath,
-        });
-        console.log(stdout);
-      }
-    });
+  if (!args.skipPublish) {
+    const pkgs = args.publishOnly ? getPackages(cwd) : updated;
+    logStep(`publish packages: ${chalk.blue(pkgs.join(', '))}`);
+
+    pkgs
+      .forEach((pkg, index) => {
+        const pkgPath = join(cwd, 'packages', pkg);
+        const { name, version } = require(join(pkgPath, 'package.json'));
+        if (version === currVersion) {
+          console.log(
+            `[${index + 1}/${pkgs.length}] Publish package ${name} ${
+              isNext ? 'with next tag' : ''
+            }`,
+          );
+          const cliArgs = isNext ? ['publish', '--tag', 'next'] : ['publish'];
+          const { stdout } = execa.sync('npm', cliArgs, {
+            cwd: pkgPath,
+          });
+          console.log(stdout);
+        }
+      });
+  }
 
   if (releaseNotes && args.repoUrlPrefix && args.repoUrl) {
     logStep('create github release');

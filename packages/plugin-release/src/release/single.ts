@@ -2,9 +2,10 @@ import { join } from 'path';
 import { writeFileSync } from 'fs';
 import { chalk } from '@birman/utils';
 import { exec, logStep } from '../utils';
+import { ReleasePluginConfig } from '../types';
 
 
-async function release(cwd: string, version: string) {
+async function release(cwd: string, version: string, args: ReleasePluginConfig) {
   const pkgPath = join(cwd, 'package.json');
 
   // Sync version to package.json
@@ -30,9 +31,11 @@ async function release(cwd: string, version: string) {
   logStep(`git push`);
   await exec('git', ['push', 'origin', 'master', '--tags']);
 
-  logStep(`npm pulish`);
-  // publish
-  await exec('npm', ['publish']);
+  if (!args.skipPublish) {
+    logStep(`npm pulish`);
+    // publish
+    await exec('npm', ['publish']);
+  }
 
   logStep('done');
 }

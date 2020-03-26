@@ -170,7 +170,7 @@ export default function(api: Api) {
         return;
       }
 
-      single(api.cwd, version);
+      single(api.cwd, version, newConfig);
     }
   });
 }
