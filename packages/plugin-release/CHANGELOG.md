@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0](https://github.com/walrusjs/plugins/compare/@walrus/plugin-release@1.4.0...@walrus/plugin-release@1.5.0) (2020-03-26)
+
+
+### Features
+
+* **plugin-release:** 功能完善 ([407a5bc](https://github.com/walrusjs/plugins/commit/407a5bceb1eb341a11a20d5661bbc9b31b047998))
+
+
+
+
+
 # 1.4.0 (2020-03-25)
 
 
