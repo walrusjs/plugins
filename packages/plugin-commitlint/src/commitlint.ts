@@ -18,12 +18,8 @@ const { pick } = lodash;
 export default async function main(raw, options) {
   const flags = normalizeFlags(options);
   const fromStdin = checkFromStdin(raw, flags);
-
   const range = pick(flags, 'edit', 'from', 'to');
-
   const input = await (fromStdin ? stdin() : read(range, { cwd: flags.cwd }));
-
-  console.log(input);
 
   const messages = (Array.isArray(input) ? input : [input])
     .filter((message) => typeof message === 'string')
