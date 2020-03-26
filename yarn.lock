@@ -2978,7 +2978,7 @@
   resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.149.tgz#1342d63d948c6062838fbf961012f74d4e638440"
   integrity sha512-ijGqzZt/b7BfzcK9vTrS6MFljQRPn5BFWOx8oE0GYxribu6uV+aA9zZuXI1zc/etK9E8nrgdoF2+LgUw7+9tJQ==
 
-"@types/minimatch@*":
+"@types/minimatch@*", "@types/minimatch@^3.0.3":
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/@types/minimatch/-/minimatch-3.0.3.tgz#3dca0e3f33b200fc7d1139c0cd96c1268cadfd9d"
   integrity sha512-tHq6qdbT9U1IRSGf14CL0pUlULksvY9OZ+5eEgl1N7t+OA3tGvNpxJCzuKQlsNgCVwbAs670L1vcVQi8j9HjnA==
@@ -3166,19 +3166,19 @@
     semver "^6.3.0"
     tsutils "^3.17.1"
 
-"@walrus/cli@^1.0.1-beta.3":
-  version "1.0.1-beta.3"
-  resolved "https://registry.yarnpkg.com/@walrus/cli/-/cli-1.0.1-beta.3.tgz#4492fa5022f59e3c821aad2b4be06fba0995c016"
-  integrity sha512-j0wguD9Tx6ddc7j0EO/dxDYVJNtwRCMyG5HR+IazOuYJFc0bsmJ+weoVElzRP6grQEQpAUPVzsJLZYXFbvgAKg==
+"@walrus/cli@^1.1.3":
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/@walrus/cli/-/cli-1.1.3.tgz#eecdfa4daef5c96a9fba5007ac9b7964ca38287d"
+  integrity sha512-v6cACUyGtUY29n16IsDWR9xT5q6Hfr4Q/Km0H5L1YJVMSy7C/3MBOxIeQceTqwB6DTFvf6qwkvRlipOEbpl92w==
   dependencies:
-    "@walrus/core" "^1.0.1-beta.3"
-    "@walrus/preset-internal" "^1.0.1-beta.3"
+    "@walrus/core" "1.1.3"
+    "@walrus/preset-internal" "1.1.3"
     resolve-cwd "^3.0.0"
 
-"@walrus/core@^1.0.1-beta.3":
-  version "1.0.1-beta.3"
-  resolved "https://registry.yarnpkg.com/@walrus/core/-/core-1.0.1-beta.3.tgz#b164177acab10a31021875c9c58c1e5f38b04270"
-  integrity sha512-BwN/aXNOlHFMaQjzMUMuf8RfB1KvAKgljwtPpc/t+4zOoJbO6lySvSMezAQX3ayAV+WrHTjm6L5AloxLzq/4rw==
+"@walrus/core@1.1.3":
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/@walrus/core/-/core-1.1.3.tgz#9848d81a5ca5674e7c2e0747cd6587a949dd8968"
+  integrity sha512-W/ffzAST7xQF/2ZT6sROVQKUk2YWvuhBjL0tuqg3xeozWKOCOkNQybQxLJ4tA4iBm0Ntqo2ezeBmyewl5h8MoQ==
   dependencies:
     "@birman/utils" "^1.1.0"
     "@hapi/joi" "^17.1.1"
@@ -3188,19 +3188,23 @@
     set-value "^3.0.1"
     tapable "^1.1.3"
 
-"@walrus/preset-internal@^1.0.1-beta.3":
-  version "1.0.1-beta.3"
-  resolved "https://registry.yarnpkg.com/@walrus/preset-internal/-/preset-internal-1.0.1-beta.3.tgz#d2684812883f495331fa6c4bc83bb8750fa97ffb"
-  integrity sha512-FGn27S3wz+yKWip7PdGikr689/lY551JpmjCShtoPKcJYCiU3ZKQlUay42XARh91nSH5gCrUsmBt/7u//L/0kg==
+"@walrus/preset-internal@1.1.3":
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/@walrus/preset-internal/-/preset-internal-1.1.3.tgz#f2f8a07215634dba955b6eb91f4f1a934c3587e0"
+  integrity sha512-KPQuF8SaggvdBmzStcac1zUN8hBv74RS6DRMBOI02XHwXsrYyemyaP/L69z/oKR+YjavhPSjse/bKwRWpSeyOw==
   dependencies:
-    "@walrus/types" "^1.0.1-beta.3"
+    "@walrus/types" "1.1.3"
+    find-up "^4.1.0"
+    ignore "^5.1.4"
+    multimatch "^4.0.0"
 
-"@walrus/types@^1.0.1-beta.3":
-  version "1.0.1-beta.3"
-  resolved "https://registry.yarnpkg.com/@walrus/types/-/types-1.0.1-beta.3.tgz#2d5f56245f14eb892cadd728a2d4d2546c1e7f20"
-  integrity sha512-Squur1OFfw08sez1d9K1I2fvpeiZ5Qjhf759Vbuyb+lV02vd+5mXPQ9P0WacoR4N+k2J+sIKEqohO3l3HMhfQw==
+"@walrus/types@1.1.3":
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/@walrus/types/-/types-1.1.3.tgz#99ac5ffd0ba3b663c31af35c7e28236d36a95529"
+  integrity sha512-ENB3OoUKAt5Ylpr9o9rDIgupgM3KI8GRxqiOVfs4Ni7BERjTxlJGgHjKWqBPx+AbDofaQe1vWVLeUhebvpV6kg==
   dependencies:
-    "@walrus/core" "^1.0.1-beta.3"
+    "@walrus/core" "1.1.3"
+    ignore "^5.1.4"
 
 "@zkochan/cmd-shim@^3.1.0":
   version "3.1.0"
@@ -3518,6 +3522,11 @@ array-differ@^2.0.3:
   resolved "https://registry.yarnpkg.com/array-differ/-/array-differ-2.1.0.tgz#4b9c1c3f14b906757082925769e8ab904f4801b1"
   integrity sha512-KbUpJgx909ZscOc/7CLATBFam7P1Z1QRQInvgT0UztM9Q72aGKCunKASAl7WNW0tnPmPyEMeMhdsfWhfmW037w==
 
+array-differ@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/array-differ/-/array-differ-3.0.0.tgz#3cbb3d0f316810eafcc47624734237d6aee4ae6b"
+  integrity sha512-THtfYS6KtME/yIAhKjZ2ul7XI96lQGHRputJQHO80LAWQnuGP4iCIN8vdMRboGbIEYBwU33q8Tch1os2+X0kMg==
+
 array-equal@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/array-equal/-/array-equal-1.0.0.tgz#8c2a5ef2472fd9ea742b04c77a75093ba2757c93"
@@ -3573,6 +3582,11 @@ arrify@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/arrify/-/arrify-1.0.1.tgz#898508da2226f380df904728456849c1501a4b0d"
   integrity sha1-iYUI2iIm84DfkEcoRWhJwVAaSw0=
+
+arrify@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/arrify/-/arrify-2.0.1.tgz#c9655e9331e0abcd588d2a7cad7e9956f66701fa"
+  integrity sha512-3duEwti880xqi4eAMN8AyR4a0ByT90zoYdLlevfrvU43vb0YZwZVfxOgxWrLXXXpyugL0hNZc9G6BiB5B3nUug==
 
 asap@^2.0.0, asap@~2.0.3:
   version "2.0.6"
@@ -4463,11 +4477,6 @@ compare-func@^1.3.1:
   dependencies:
     array-ify "^1.0.0"
     dot-prop "^3.0.0"
-
-compare-versions@^3.5.1:
-  version "3.6.0"
-  resolved "https://registry.yarnpkg.com/compare-versions/-/compare-versions-3.6.0.tgz#1a5689913685e5a87637b8d3ffca75514ec41d62"
-  integrity sha512-W6Af2Iw1z4CB7q4uU4hv646dW9GQuBM+YpC0UvUCWSD8w90SJjp+ujJuXaEMtAXBtSqGfMPuFOVn4/+FlaqfBA==
 
 component-emitter@^1.2.1:
   version "1.3.0"
@@ -5951,13 +5960,6 @@ find-up@^4.0.0, find-up@^4.1.0:
     locate-path "^5.0.0"
     path-exists "^4.0.0"
 
-find-versions@^3.2.0:
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/find-versions/-/find-versions-3.2.0.tgz#10297f98030a786829681690545ef659ed1d254e"
-  integrity sha512-P8WRou2S+oe222TOCHitLy8zj+SIsVJh52VP4lvXkaFVnOFFdoWv1H1Jjvel1aI6NCFOAaeAVm8qrI0odiLcww==
-  dependencies:
-    semver-regex "^2.0.0"
-
 flat-cache@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/flat-cache/-/flat-cache-2.0.1.tgz#5d296d6f04bda44a4630a301413bdbc2ec085ec0"
@@ -6685,21 +6687,22 @@ humanize-ms@^1.2.1:
   dependencies:
     ms "^2.0.0"
 
-husky@^4.2.3:
-  version "4.2.3"
-  resolved "https://registry.yarnpkg.com/husky/-/husky-4.2.3.tgz#3b18d2ee5febe99e27f2983500202daffbc3151e"
-  integrity sha512-VxTsSTRwYveKXN4SaH1/FefRJYCtx+wx04sSVcOpD7N2zjoHxa+cEJ07Qg5NmV3HAK+IRKOyNVpi2YBIVccIfQ==
+husky@3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/husky/-/husky-3.1.0.tgz#5faad520ab860582ed94f0c1a77f0f04c90b57c0"
+  integrity sha512-FJkPoHHB+6s4a+jwPqBudBDvYZsoQW5/HBuMSehC8qDiCe50kpcxeqFoDSlow+9I6wg47YxBoT3WxaURlrDIIQ==
   dependencies:
-    chalk "^3.0.0"
+    chalk "^2.4.2"
     ci-info "^2.0.0"
-    compare-versions "^3.5.1"
-    cosmiconfig "^6.0.0"
-    find-versions "^3.2.0"
+    cosmiconfig "^5.2.1"
+    execa "^1.0.0"
+    get-stdin "^7.0.0"
     opencollective-postinstall "^2.0.2"
     pkg-dir "^4.2.0"
     please-upgrade-node "^3.2.0"
+    read-pkg "^5.2.0"
+    run-node "^1.0.0"
     slash "^3.0.0"
-    which-pm-runs "^1.0.0"
 
 iconv-lite@0.4.24, iconv-lite@^0.4.24, iconv-lite@~0.4.13:
   version "0.4.24"
@@ -8913,6 +8916,17 @@ multimatch@^3.0.0:
     array-differ "^2.0.3"
     array-union "^1.0.2"
     arrify "^1.0.1"
+    minimatch "^3.0.4"
+
+multimatch@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/multimatch/-/multimatch-4.0.0.tgz#8c3c0f6e3e8449ada0af3dd29efb491a375191b3"
+  integrity sha512-lDmx79y1z6i7RNx0ZGCPq1bzJ6ZoDDKbvh7jxr9SJcWLkShMzXrHbYVpTdnhNM5MXpDUxCQ4DgqVttVXlBgiBQ==
+  dependencies:
+    "@types/minimatch" "^3.0.3"
+    array-differ "^3.0.0"
+    array-union "^2.1.0"
+    arrify "^2.0.1"
     minimatch "^3.0.4"
 
 mustache@^4.0.0:
@@ -11158,6 +11172,11 @@ run-async@^2.2.0, run-async@^2.4.0:
   dependencies:
     is-promise "^2.1.0"
 
+run-node@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/run-node/-/run-node-1.0.0.tgz#46b50b946a2aa2d4947ae1d886e9856fd9cabe5e"
+  integrity sha512-kc120TBlQ3mih1LSzdAJXo4xn/GWS2ec0l3S+syHDXP9uRr0JAT8Qd3mdMuyjqCzeZktgP3try92cEgf9Nks8A==
+
 run-parallel@^1.1.2, run-parallel@^1.1.9:
   version "1.1.9"
   resolved "https://registry.yarnpkg.com/run-parallel/-/run-parallel-1.1.9.tgz#c9dd3a7cf9f4b2c4b6244e173a6ed866e61dd679"
@@ -11237,11 +11256,6 @@ semver-diff@^2.0.0:
   integrity sha1-S7uEN8jTfksM8aaP1ybsbWRdbTY=
   dependencies:
     semver "^5.0.3"
-
-semver-regex@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/semver-regex/-/semver-regex-2.0.0.tgz#a93c2c5844539a770233379107b38c7b4ac9d338"
-  integrity sha512-mUdIBBvdn0PLOeP3TEkMH7HHeUP3GjsXCwKarjv/kGmUFOYg1VqEemKhoQpWMu6X2I8kHeuVdGibLGkVK+/5Qw==
 
 "semver@2 || 3 || 4 || 5", "semver@2.x || 3.x || 4 || 5", semver@^5.0.3, semver@^5.3.0, semver@^5.4.1, semver@^5.5.0, semver@^5.5.1, semver@^5.6.0, semver@^5.7.0, semver@^5.7.1:
   version "5.7.1"
@@ -12967,11 +12981,6 @@ which-module@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/which-module/-/which-module-2.0.0.tgz#d9ef07dce77b9902b8a3a8fa4b31c3e3f7e6e87a"
   integrity sha1-2e8H3Od7mQK4o6j6SzHD4/fm6Ho=
-
-which-pm-runs@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/which-pm-runs/-/which-pm-runs-1.0.0.tgz#670b3afbc552e0b55df6b7780ca74615f23ad1cb"
-  integrity sha1-Zws6+8VS4LVd9rd4DKdGFfI60cs=
 
 which@^1.2.9, which@^1.3.1:
   version "1.3.1"

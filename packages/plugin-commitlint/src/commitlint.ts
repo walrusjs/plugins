@@ -13,127 +13,127 @@ import {
 } from './utils';
 
 const pkg = require('../package');
-const { pick, isFunction } = lodash;
+const { pick } = lodash;
 
 export default async function main(raw, options) {
-	const flags = normalizeFlags(options);
-	const fromStdin = checkFromStdin(raw, flags);
+  const flags = normalizeFlags(options);
+  const fromStdin = checkFromStdin(raw, flags);
 
-	const range = pick(flags, 'edit', 'from', 'to');
+  const range = pick(flags, 'edit', 'from', 'to');
 
-	const input = await (fromStdin ? stdin() : read(range, {cwd: flags.cwd}));
+  const input = await (fromStdin ? stdin() : read(range, { cwd: flags.cwd }));
 
-	const messages = (Array.isArray(input) ? input : [input])
-		.filter(message => typeof message === 'string')
-		.filter(message => message.trim() !== '')
-		.filter(Boolean);
+  console.log(input);
 
-	if (messages.length === 0 && !checkFromRepository(flags)) {
-		const err = new Error(
-			'[input] is required: supply via stdin, or --env or --edit or --from and --to'
-		);
-		err['type'] = pkg.name;
-		console.log(err.message);
-		throw err;
-	}
+  const messages = (Array.isArray(input) ? input : [input])
+    .filter((message) => typeof message === 'string')
+    .filter((message) => message.trim() !== '')
+    .filter(Boolean);
 
-	const loadOpts = {cwd: flags.cwd, file: flags.config};
-	const loaded = await load(getSeed(flags), loadOpts);
-	const parserOpts = selectParserOpts(loaded.parserPreset);
-	const opts = {
-		parserOpts: {},
-		plugins: {},
-		ignores: [],
-		defaultIgnores: true
-	};
-	if (parserOpts) {
-		opts.parserOpts = parserOpts;
-	}
-	if (loaded.plugins) {
-		opts.plugins = loaded.plugins;
-	}
-	if (loaded.ignores) {
-		opts.ignores = loaded.ignores;
-	}
-	if (loaded.defaultIgnores === false) {
-		opts.defaultIgnores = false;
-	}
-	const format = loadFormatter(loaded, flags);
+  if (messages.length === 0 && !checkFromRepository(flags)) {
+    const err = new Error(
+      '[input] is required: supply via stdin, or --env or --edit or --from and --to'
+    );
+    err['type'] = pkg.name;
+    console.log(err.message);
+    throw err;
+  }
 
-	// Strip comments if reading from `.git/COMMIT_EDIT_MSG`
-	if (range.edit) {
-		opts.parserOpts['commentChar'] = '#';
-	}
+  const loadOpts = { cwd: flags.cwd, file: flags.config };
+  const loaded = await load(getSeed(flags), loadOpts);
+  const parserOpts = selectParserOpts(loaded.parserPreset);
+  const opts = {
+    parserOpts: {},
+    plugins: {},
+    ignores: [],
+    defaultIgnores: true
+  };
+  if (parserOpts) {
+    opts.parserOpts = parserOpts;
+  }
+  if (loaded.plugins) {
+    opts.plugins = loaded.plugins;
+  }
+  if (loaded.ignores) {
+    opts.ignores = loaded.ignores;
+  }
+  if (loaded.defaultIgnores === false) {
+    opts.defaultIgnores = false;
+  }
+  const format = loadFormatter(loaded, flags);
 
-	const results = await Promise.all(
-		messages.map(message => lint(message, loaded.rules, opts))
-	);
+  // Strip comments if reading from `.git/COMMIT_EDIT_MSG`
+  if (range.edit) {
+    opts.parserOpts['commentChar'] = '#';
+  }
 
-	if (Object.keys(loaded.rules).length === 0) {
-		let input = '';
+  const results = await Promise.all(messages.map((message) => lint(message, loaded.rules, opts)));
 
-		if (results.length !== 0) {
-			const originalInput = results[0].input;
-			input = originalInput;
-		}
+  if (Object.keys(loaded.rules).length === 0) {
+    let input = '';
 
-		results.splice(0, results.length, {
-			valid: false,
-			errors: [
-				{
-					level: 2,
-					valid: false,
-					name: 'empty-rules',
-					message: [
-						'Please add rules to your `commitlint.config.js`',
-						'    - Getting started guide: https://git.io/fhHij',
-						'    - Example config: https://git.io/fhHip'
-					].join('\n')
-				}
-			],
-			warnings: [],
-			input
-		});
-	}
+    if (results.length !== 0) {
+      const originalInput = results[0].input;
+      input = originalInput;
+    }
 
-	const report = results.reduce(
-		(info, result) => {
-			info.valid = result.valid ? info.valid : false;
-			info.errorCount += result.errors.length;
-			info.warningCount += result.warnings.length;
-			info.results.push(result);
+    results.splice(0, results.length, {
+      valid: false,
+      errors: [
+        {
+          level: 2,
+          valid: false,
+          name: 'empty-rules',
+          message: [
+            'Please add rules to your `commitlint.config.js`',
+            '    - Getting started guide: https://git.io/fhHij',
+            '    - Example config: https://git.io/fhHip'
+          ].join('\n')
+        }
+      ],
+      warnings: [],
+      input
+    });
+  }
 
-			return info;
-		},
-		{
-			valid: true,
-			errorCount: 0,
-			warningCount: 0,
-			results: []
-		}
-	);
+  const report = results.reduce(
+    (info, result) => {
+      info.valid = result.valid ? info.valid : false;
+      info.errorCount += result.errors.length;
+      info.warningCount += result.warnings.length;
+      info.results.push(result);
 
-	const output = format(report, {
-		color: flags.color,
-		verbose: flags.verbose,
-		helpUrl: flags.helpUrl
-			? flags.helpUrl.trim()
-			: 'https://github.com/walrusjs/plugins/tree/master/packages/plugin-commitlint'
-	});
+      return info;
+    },
+    {
+      valid: true,
+      errorCount: 0,
+      warningCount: 0,
+      results: []
+    }
+  );
 
-	if (!flags.quiet && output !== '') {
-		console.log(output);
-	}
+  const output = format(report, {
+    color: flags.color,
+    verbose: flags.verbose,
+    helpUrl: flags.helpUrl
+      ? flags.helpUrl.trim()
+      : 'https://github.com/walrusjs/plugins/tree/master/packages/plugin-commitlint'
+  });
 
-	if (!report.valid) {
-		const err = new Error(output);
-		err['type'] = pkg.name;
-		throw err;
-	}
+  if (!flags.quiet && output !== '') {
+    console.log(output);
+  }
+
+  if (!report.valid) {
+    const err = new Error(output);
+    err['type'] = pkg.name;
+    throw err;
+  }
 }
 
 // Catch unhandled rejections globally
 process.on('unhandledRejection', (reason, promise) => {
-	console.log('Unhandled Rejection at: Promise ', promise, ' reason: ', reason);
-	throw reason;
+  console.log('Unhandled Rejection at: Promise ', promise, ' reason: ', reason);
+  throw reason;
 });
