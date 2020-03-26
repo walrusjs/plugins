@@ -5,16 +5,19 @@ export * from './load';
 export * from './parse';
 
 export interface Flags {
-  to?: string;
+  // 执行的目录
   cwd?: string;
   env?: string;
-  edit?: string;
+  edit?: string | boolean;
+  // 切换色彩输出
   color?: boolean;
-  from?: string;
+  // 配置文件路径
   config?: string;
+  extends?: string;
+  from?: string;
+  to?: string;
   quiet?: boolean;
   format?: string;
-  // 启动详细输出
   verbose?: boolean;
   helpUrl?: string;
 }

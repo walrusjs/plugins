@@ -56,11 +56,8 @@ function getEditValue(flags: Flags) {
         `Recieved '${flags.env}' as value for -E | --env, but environment variable '${flags.env}' is not available globally`
       );
     }
-    if (!(flags.env in process.env)) {
-      return process.env[flags.env];
-    }
+    return process.env[flags.env];
   }
-
   const { edit } = flags;
 
   // If the edit flag is set but empty (i.e '-e') we default

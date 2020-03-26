@@ -8,12 +8,15 @@ const pkg = require('../package.json');
 const defaultConfig: Flags = {
   env: null,
   color: true,
+  edit: false,
   from: null,
   to: null,
+  quiet: false,
+  verbose: false,
   config: join(__dirname, 'commitlint.config.js')
 };
 
-export default function(api: Api) {
+export default function (api: Api) {
   api.describe({
     key: 'commitlint',
     config: {
@@ -53,7 +56,9 @@ export default function(api: Api) {
       const userConfig = api.config?.commitlint || {};
       const pluginConfig = api.mergeConfig(userConfig, args);
 
-      commitLint(args._, pluginConfig).catch(err =>
+      pluginConfig.cwd = api.cwd;
+
+      commitLint(args._, pluginConfig).catch((err) =>
         setTimeout(() => {
           if (err.type === pkg.name) {
             process.exit(1);
