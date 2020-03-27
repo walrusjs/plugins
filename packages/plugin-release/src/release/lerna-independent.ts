@@ -14,16 +14,12 @@ import { ReleasePluginConfig } from '../types';
 const lernaCli = require.resolve('lerna/cli');
 
 async function release(cwd: string, args: ReleasePluginConfig) {
-
   // 获取更新的包
   const updated = getLernaUpdated(args.publishOnly);
 
   if (!updated.length) {
     printErrorAndExit('Release failed, no updated package is updated.');
   }
-
-  // Clean
-  logStep('clean');
 
   // Bump version
   // Commit
@@ -33,31 +29,21 @@ async function release(cwd: string, args: ReleasePluginConfig) {
 
   const conventionalGraduate = args.conventionalGraduate
     ? ['--conventional-graduate'].concat(
-        Array.isArray(args.conventionalGraduate)
-          ? args.conventionalGraduate.join(',')
-          : [],
+        Array.isArray(args.conventionalGraduate) ? args.conventionalGraduate.join(',') : []
       )
     : [];
 
   const conventionalPrerelease = args.conventionalPrerelease
     ? ['--conventional-prerelease'].concat(
-        Array.isArray(args.conventionalPrerelease)
-          ? args.conventionalPrerelease.join(',')
-          : [],
+        Array.isArray(args.conventionalPrerelease) ? args.conventionalPrerelease.join(',') : []
       )
     : [];
 
   await exec(
     lernaCli,
-    [
-      'version',
-      '--exact',
-      '--message',
-      'chore(release): Publish',
-      '--conventional-commits',
-    ]
+    ['version', '--exact', '--message', 'chore(release): Publish', '--conventional-commits']
       .concat(conventionalGraduate)
-      .concat(conventionalPrerelease),
+      .concat(conventionalPrerelease)
   );
 
   if (!args.skipPublish) {
@@ -73,20 +59,16 @@ async function release(cwd: string, args: ReleasePluginConfig) {
       if (args.publishOnly) {
         isPackageExist = packageExists({ name, version });
         if (isPackageExist) {
-          console.log(
-            `package ${name}@${version} is already exists on npm, skip.`,
-          );
+          console.log(`package ${name}@${version} is already exists on npm, skip.`);
         }
       }
       if (!args.publishOnly || !isPackageExist) {
         console.log(
-          `[${index + 1}/${pkgs.length}] Publish package ${name} ${
-            isNext ? 'with next tag' : ''
-          }`,
+          `[${index + 1}/${pkgs.length}] Publish package ${name} ${isNext ? 'with next tag' : ''}`
         );
         const cliArgs = isNext ? ['publish', '--tag', 'next'] : ['publish'];
         const { stdout } = execa.sync('npm', cliArgs, {
-          cwd: pkgPath,
+          cwd: pkgPath
         });
         console.log(stdout);
       }

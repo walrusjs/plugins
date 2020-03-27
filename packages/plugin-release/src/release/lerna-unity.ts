@@ -1,12 +1,6 @@
 import { join } from 'path';
 import { execa, chalk } from '@birman/utils';
-import {
-  exec,
-  logStep,
-  getPackages,
-  isNextVersion,
-  printErrorAndExit
-} from '../utils';
+import { exec, logStep, getPackages, isNextVersion, printErrorAndExit } from '../utils';
 import { ReleasePluginConfig } from '../types';
 
 const lernaCli = require.resolve('lerna/cli');
@@ -21,70 +15,62 @@ async function release(
 ) {
   let updated = null;
 
-  if (!args.publishOnly) {
-    logStep('check updated packages');
-    const updatedStdout = execa.sync(lernaCli, ['changed']).stdout;
-    updated = updatedStdout
-      .split('\n')
-      .map((pkg) => {
-        return pkg.split('/')[1];
-      })
-      .filter(Boolean);
-    if (!updated.length) {
-      printErrorAndExit('Release failed, no updated package is updated.');
-    }
-
-    // Clean
-    logStep('clean');
-
-    // Bump version
-    logStep('bump version with lerna version');
-    await exec(lernaCli, [
-      'version',
-      currVersion,
-      '--exact',
-      '--no-commit-hooks',
-      '--no-git-tag-version',
-      '--no-push',
-    ]);
-
-    // Commit
-    const commitMessage = `release: v${currVersion}`;
-    logStep(`git commit with ${chalk.blue(commitMessage)}`);
-    await exec('git', ['commit', '--all', '--message', commitMessage]);
-
-    // Git Tag
-    logStep(`git tag v${currVersion}`);
-    await exec('git', ['tag', `v${currVersion}`]);
-
-    // Push
-    logStep(`git push`);
-    await exec('git', ['push', 'origin', 'master', '--tags']);
+  logStep('check updated packages');
+  const updatedStdout = execa.sync(lernaCli, ['changed']).stdout;
+  updated = updatedStdout
+    .split('\n')
+    .map((pkg) => {
+      return pkg.split('/')[1];
+    })
+    .filter(Boolean);
+  if (!updated.length) {
+    printErrorAndExit('Release failed, no updated package is updated.');
   }
+
+  // Bump version
+  logStep('bump version with lerna version');
+  await exec(lernaCli, [
+    'version',
+    currVersion,
+    '--exact',
+    '--no-commit-hooks',
+    '--no-git-tag-version',
+    '--no-push'
+  ]);
+
+  // Commit
+  const commitMessage = `release: v${currVersion}`;
+  logStep(`git commit with ${chalk.blue(commitMessage)}`);
+  await exec('git', ['commit', '--all', '--message', commitMessage]);
+
+  // Git Tag
+  logStep(`git tag v${currVersion}`);
+  await exec('git', ['tag', `v${currVersion}`]);
+
+  // Push
+  logStep(`git push`);
+  await exec('git', ['push', 'origin', 'master', '--tags']);
 
   const isNext = isNextVersion(currVersion);
 
   if (!args.skipPublish) {
-    const pkgs = args.publishOnly ? getPackages(cwd) : updated;
+    const pkgs = getPackages(cwd);
     logStep(`publish packages: ${chalk.blue(pkgs.join(', '))}`);
 
-    pkgs
-      .forEach((pkg, index) => {
-        const pkgPath = join(cwd, 'packages', pkg);
-        const { name, version } = require(join(pkgPath, 'package.json'));
-        if (version === currVersion) {
-          console.log(
-            `[${index + 1}/${pkgs.length}] Publish package ${name} ${
-              isNext ? 'with next tag' : ''
-            }`,
-          );
-          const cliArgs = isNext ? ['publish', '--tag', 'next'] : ['publish'];
-          const { stdout } = execa.sync('npm', cliArgs, {
-            cwd: pkgPath,
-          });
-          console.log(stdout);
-        }
-      });
+    pkgs.forEach((pkg, index) => {
+      const pkgPath = join(cwd, 'packages', pkg);
+      const { name, version } = require(join(pkgPath, 'package.json'));
+      if (version === currVersion) {
+        console.log(
+          `[${index + 1}/${pkgs.length}] Publish package ${name} ${isNext ? 'with next tag' : ''}`
+        );
+        const cliArgs = isNext ? ['publish', '--tag', 'next'] : ['publish'];
+        const { stdout } = execa.sync('npm', cliArgs, {
+          cwd: pkgPath
+        });
+        console.log(stdout);
+      }
+    });
   }
 
   if (releaseNotes && args.repoUrlPrefix && args.repoUrl) {
@@ -96,7 +82,7 @@ async function release(
       repoUrl: args.repoUrlPrefix + args.repoUrl,
       tag,
       body: changelog,
-      isPrerelease: isNext,
+      isPrerelease: isNext
     });
     await open(url);
   }

@@ -17,9 +17,9 @@ const defaultConfig: ReleasePluginConfig = {
   skipPublish: false,
   skipGitStatusCheck: false,
   repoUrlPrefix: 'https://github.com/'
-}
+};
 
-export default function(api: Api) {
+export default function (api: Api) {
   const { semver, isLernaPackage, execa, chalk } = api.utils;
 
   api.describe({
@@ -28,23 +28,21 @@ export default function(api: Api) {
       default: defaultConfig,
       schema(joi) {
         return joi.object({
-          org: joi.string(),
           skipBuild: joi.boolean(),
           skipPublish: joi.boolean(),
           repoUrl: joi.string(),
+          skipChangelog: joi.string(),
           repoUrlPrefix: joi.string(),
           skipGitStatusCheck: joi.boolean()
         });
-      },
+      }
     }
   });
 
-  function getCurrentVersion(
-    mode: Mode = 'single'
-  ) {
+  function getCurrentVersion(mode: Mode = 'single') {
     let version = '';
 
-    switch(mode) {
+    switch (mode) {
       case 'single':
         version = api.pkg.version;
         break;
@@ -69,26 +67,16 @@ export default function(api: Api) {
       const newConfig = Object.assign({}, api.config.release, args);
       const { skipPublish } = newConfig;
 
-      // lerna 项目 确认是否转换发布类型
+      // 修改发布模式
       if (isLernaPackage(api.cwd)) {
-        const { yes } = await inquirer.prompt([{
-          name: 'yes',
-          message: `Whether to use lerna mode?`,
-          type: 'confirm'
-        }]);
-
-        yes && (mode = 'lerna');
+        mode = 'lerna';
       }
 
       const currentVersion = getCurrentVersion(mode);
 
       // 发布项目不合法的一些情况
-      if (
-        mode === 'single' &&
-        !skipPublish &&
-        (api.pkg.private || !currentVersion)
-      ) {
-        printErrorAndExit(`单项目&开启发布，项目私有或者版本不存在`);
+      if (mode === 'single' && !skipPublish && (api.pkg.private || !currentVersion)) {
+        printErrorAndExit(`单包项目&跳过发布&(项目私有或者版本不存在)`);
         return;
       }
 
@@ -96,7 +84,7 @@ export default function(api: Api) {
         !(mode === 'lerna' && currentVersion === 'independent') &&
         !semver.valid(currentVersion)
       ) {
-        printErrorAndExit(`多项目&同版本，版本不存在`);
+        printErrorAndExit(`多包项目&同版本&版本不存在`);
         return;
       }
 
@@ -108,22 +96,22 @@ export default function(api: Api) {
           printErrorAndExit(`Your git status is not clean. Aborting.`);
         }
       } else {
-        logStep(
-          'git status check is skipped, since --skip-git-status-check is supplied',
-        );
+        logStep('git status check is skipped, since --skip-git-status-check is supplied');
       }
 
-      // Check npm registryre
-      logStep('check npm registry');
-      const userRegistry = execa.sync('npm', ['config', 'get', 'registry']).stdout;
-      if (userRegistry.includes('https://registry.yarnpkg.com/')) {
-        printErrorAndExit(
-          `Release failed, please use ${chalk.blue('npm run release')}.`,
-        );
-      }
-      if (!userRegistry.includes('https://registry.npmjs.org/')) {
-        const registry = chalk.blue('https://registry.npmjs.org/');
-        printErrorAndExit(`Release failed, npm registry must be ${registry}.`);
+      if (!newConfig.skipPublish) {
+        // Check npm registryre
+        logStep('check npm registry');
+        const userRegistry = execa.sync('npm', ['config', 'get', 'registry']).stdout;
+        if (userRegistry.includes('https://registry.yarnpkg.com/')) {
+          printErrorAndExit(`Release failed, please use ${chalk.blue('npm run release')}.`);
+        }
+        if (!userRegistry.includes('https://registry.npmjs.org/')) {
+          const registry = chalk.blue('https://registry.npmjs.org/');
+          printErrorAndExit(`Release failed, npm registry must be ${registry}.`);
+        }
+      } else {
+        logStep('npm registryre check is skipped, since --skip-publish is supplied');
       }
 
       // Build
@@ -131,7 +119,7 @@ export default function(api: Api) {
         logStep('build');
         await exec('npm', ['run', 'build']);
       } else {
-        logStep('build is skipped, since args.skipBuild is supplied');
+        logStep('build is skipped, since --skip-build is supplied');
       }
 
       // lerna 独立版本发布

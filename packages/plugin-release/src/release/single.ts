@@ -4,7 +4,6 @@ import { chalk } from '@birman/utils';
 import { exec, logStep } from '../utils';
 import { ReleasePluginConfig } from '../types';
 
-
 async function release(cwd: string, version: string, args: ReleasePluginConfig) {
   const pkgPath = join(cwd, 'package.json');
 
@@ -12,11 +11,7 @@ async function release(cwd: string, version: string, args: ReleasePluginConfig) 
   logStep('sync version to root package.json');
   const rootPkg = require(pkgPath);
   rootPkg.version = version;
-  writeFileSync(
-    join(pkgPath),
-    JSON.stringify(rootPkg, null, 2) + '\n',
-    'utf-8',
-  );
+  writeFileSync(join(pkgPath), JSON.stringify(rootPkg, null, 2) + '\n', 'utf-8');
 
   // Commit
   const commitMessage = `release: v${version}`;
@@ -35,6 +30,8 @@ async function release(cwd: string, version: string, args: ReleasePluginConfig) 
     logStep(`npm pulish`);
     // publish
     await exec('npm', ['publish']);
+  } else {
+    logStep('npm registryre check is skipped, since --skip-publish is supplied');
   }
 
   logStep('done');

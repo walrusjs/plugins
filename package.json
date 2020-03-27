@@ -1,7 +1,7 @@
 {
   "name": "@walrus/plugins",
   "private": true,
-  "description": "Official plugins and presets for walrus@1.",
+  "description": "Official plugins and presets for walrus.",
   "main": "index.js",
   "repository": "git@github.com:walrusjs/plugins.git",
   "author": "Walrus Team",
@@ -10,6 +10,9 @@
     "build": "father-build",
     "test": "birman-test",
     "links": "yarn link @walrus/cli && yarn link @walrus/preset-internal && yarn link @walrus/core && yarn link @walrus/types",
+    "prettier": "walrus prettier",
+    "lint": "walrus lint",
+    "lint:commit": "walrus commitlint --env HUSKY_GIT_PARAMS",
     "release": "walrus release"
   },
   "devDependencies": {
@@ -22,8 +25,8 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "walrus prettier",
-      "commit-msg": "walrus commitlint --env HUSKY_GIT_PARAMS"
+      "pre-commit": "npm run prettier",
+      "commit-msg": "npm run lint:commit"
     }
   },
   "workspaces": [
