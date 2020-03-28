@@ -14,7 +14,7 @@ async function release(cwd: string, version: string, args: ReleasePluginConfig) 
   writeFileSync(join(pkgPath), JSON.stringify(rootPkg, null, 2) + '\n', 'utf-8');
 
   // Commit
-  const commitMessage = `release: v${version}`;
+  const commitMessage = `chore(release): v${version}`;
   logStep(`git commit with ${chalk.blue(commitMessage)}`);
   await exec('git', ['commit', '--all', '--message', commitMessage]);
 

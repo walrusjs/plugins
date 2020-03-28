@@ -39,7 +39,7 @@ async function release(
   ]);
 
   // Commit
-  const commitMessage = `release: v${currVersion}`;
+  const commitMessage = `chore(release): v${currVersion}`;
   logStep(`git commit with ${chalk.blue(commitMessage)}`);
   await exec('git', ['commit', '--all', '--message', commitMessage]);
 

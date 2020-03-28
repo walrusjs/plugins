@@ -20,6 +20,7 @@ export interface ReleasePluginConfig {
   skipGitStatusCheck?: boolean;
   // 跳过changelog
   skipChangelog?: boolean;
+  publishOnly?: boolean;
   conventionalGraduate?: any;
   conventionalPrerelease?: any;
 }
