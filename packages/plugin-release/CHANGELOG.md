@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.7.0](https://github.com/walrusjs/plugins/compare/@walrus/plugin-release@1.6.0...@walrus/plugin-release@1.7.0) (2020-03-29)
+
+### Bug Fixes
+
+- **plugin-release:** 修复只能在 master 分支发布 ([baa1436](https://github.com/walrusjs/plugins/commit/baa1436918ef5a07e16c2efe5a88e761a200d296))
+- **plugin-release:** 修复提交信息格式问题 ([77ab440](https://github.com/walrusjs/plugins/commit/77ab44091a5051b10c03bba2786a77f244f80418))
+
+### Features
+
+- 添加可修改编译命令的配置项 ([6353adf](https://github.com/walrusjs/plugins/commit/6353adf10c4803acfe33965f56386ae760e40120))
+
 # [1.6.0](https://github.com/walrusjs/plugins/compare/@walrus/plugin-release@1.5.0...@walrus/plugin-release@1.6.0) (2020-03-28)
 
 ### Features
