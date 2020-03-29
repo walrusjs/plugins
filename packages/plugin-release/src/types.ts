@@ -21,6 +21,8 @@ export interface ReleasePluginConfig {
   // 跳过changelog
   skipChangelog?: boolean;
   publishOnly?: boolean;
+  // 编译命令
+  buildCommand?: string;
   conventionalGraduate?: any;
   conventionalPrerelease?: any;
 }

@@ -63,6 +63,10 @@ walrus release
 
 跳过编译，发布过程会默认执行 `npm run build`，设置此项可跳过；
 
+### --build-command
+
+执行的编译命令，默认 `build` 。
+
 ### --skip-publish
 
 跳过发布，如果项目不需要发布到 npm ，请设置此项跳过

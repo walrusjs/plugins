@@ -1,5 +1,5 @@
-import inquirer from 'inquirer';
 import { Api } from '@walrus/types';
+import { semver, isLernaPackage, execa, chalk } from '@birman/utils';
 import {
   exec,
   logStep,
@@ -16,12 +16,11 @@ const defaultConfig: ReleasePluginConfig = {
   skipBuild: false,
   skipPublish: false,
   skipGitStatusCheck: false,
+  buildCommand: 'build',
   repoUrlPrefix: 'https://github.com/'
 };
 
 export default function (api: Api) {
-  const { semver, isLernaPackage, execa, chalk } = api.utils;
-
   api.describe({
     key: 'release',
     config: {
@@ -33,6 +32,7 @@ export default function (api: Api) {
           repoUrl: joi.string(),
           skipChangelog: joi.string(),
           repoUrlPrefix: joi.string(),
+          buildCommand: joi.string(),
           skipGitStatusCheck: joi.boolean()
         });
       }
@@ -117,7 +117,7 @@ export default function (api: Api) {
       // Build
       if (!newConfig.skipBuild) {
         logStep('build');
-        await exec('npm', ['run', 'build']);
+        await exec('npm', ['run', newConfig.buildCommand || 'build']);
       } else {
         logStep('build is skipped, since --skip-build is supplied');
       }
