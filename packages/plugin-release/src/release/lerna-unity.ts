@@ -49,7 +49,7 @@ async function release(
 
   // Push
   logStep(`git push`);
-  await exec('git', ['push', 'origin', 'master', '--tags']);
+  await exec('git', ['push', 'origin', '--tags']);
 
   const isNext = isNextVersion(currVersion);
 
