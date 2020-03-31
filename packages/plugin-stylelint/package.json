@@ -9,6 +9,7 @@
   ],
   "license": "MIT",
   "dependencies": {
+    "@types/vfile-message": "^2.0.0",
     "stylelint": "^13.2.1",
     "stylelint-config-prettier": "^8.0.1",
     "stylelint-config-rational-order": "^0.1.2",
