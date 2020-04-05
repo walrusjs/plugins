@@ -6,6 +6,7 @@ export interface PluginEslintConfig {
   ruleType?: RuleType;
   since?: string;
   staged?: boolean;
+  restage?: boolean;
   branch?: string;
   pattern?: string[];
   // 是否开启自动修复

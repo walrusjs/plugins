@@ -9,6 +9,7 @@ class Linter {
   private api: Api;
   private cwd: string;
   private args: any;
+  private scm: any;
   private oldOpts: PluginEslintConfig;
   private customOpts: PluginEslintConfig;
   private eslintConfig: CLIEngine.Options;
@@ -20,6 +21,7 @@ class Linter {
     this.args = args;
     this.oldOpts = oldOpts;
     this.cwd = api.cwd || process.cwd();
+    this.scm = api.scm(this.cwd);
 
     const m = opts.version && opts.version.match(/^(\d+)\./);
     const majorVersion = (m && m[1]) || '0';
@@ -49,7 +51,7 @@ class Linter {
 
   lintFiles = (files: string[]) => {
     const self = this;
-    const { onWriteFile } = this.oldOpts;
+    const { onWriteFile, restage, staged } = this.oldOpts;
     const {
       utils: { lodash, chalk }
     } = self.api;
@@ -90,6 +92,7 @@ class Linter {
         const results = result.results || [];
 
         results.forEach((item) => {
+          self.scm.stageFile(self.scm.rootDirectory, item.filePath);
           onWriteFile && onWriteFile(item.filePath);
         });
       }
@@ -118,16 +121,15 @@ class Linter {
     } = this.oldOpts;
 
     const currentDirectory = this.api.cwd;
-    const scm = this.api.scm(currentDirectory);
 
-    if (!scm) {
+    if (!this.scm) {
       throw new Error('Unable to detect a source control manager.');
     }
 
-    const directory = scm.rootDirectory;
-    const revision = since || scm.getSinceRevision(directory, { staged, branch });
+    const directory = this.scm.rootDirectory;
+    const revision = since || this.scm.getSinceRevision(directory, { staged, branch });
 
-    onFoundSinceRevision && onFoundSinceRevision(scm.name, revision);
+    onFoundSinceRevision && onFoundSinceRevision(this.scm.name, revision);
 
     const rootIgnorer = this.api.createIgnorer(this.api.getIgnore(this.api.cwd));
     const cwdIgnorer =
@@ -136,7 +138,7 @@ class Linter {
         : () => true;
     const esIgnorer = this.api.createIgnorer(DEFAULT_PATTERNS);
 
-    const changedFiles = scm
+    const changedFiles = this.scm
       .getChangedFiles(directory, revision, staged)
       .filter(this.api.createMatcher(pattern))
       .filter(rootIgnorer)
@@ -144,7 +146,7 @@ class Linter {
       .filter((item) => !esIgnorer(item));
 
     const unstagedFiles = staged
-      ? scm
+      ? this.scm
           .getUnstagedChangedFiles(directory)
           .filter(this.api.createMatcher(pattern))
           .filter(rootIgnorer)
