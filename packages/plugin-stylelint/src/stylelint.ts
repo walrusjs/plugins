@@ -1,6 +1,6 @@
 import { Api } from '@walrus/types';
 import stylelint from 'stylelint';
-import { scm as Scm, createIgnorer, getIgnore, createMatcher } from '@walrus/utils';
+import { scm as Scm, ignoreFilter, createMatcher } from '@walrus/utils';
 import lintConfig from './stylelint.config.js';
 import { PluginStylelintConfig, StylelintFlags } from './types';
 
@@ -27,9 +27,9 @@ const lint = (api: Api, args: StylelintFlags = {}) => {
   const directory = scm.rootDirectory;
   const revision = since || scm.getSinceRevision(directory, { staged, branch });
 
-  const rootIgnorer = createIgnorer(getIgnore(api.cwd) as any);
+  const rootIgnorer = ignoreFilter({ directory: api.cwd });
   const cwdIgnorer =
-    currentDirectory !== directory ? createIgnorer(getIgnore(currentDirectory) as any) : () => true;
+    currentDirectory !== directory ? ignoreFilter({ directory: currentDirectory }) : () => true;
 
   const changedFiles = scm
     .getChangedFiles(directory, revision, staged)
@@ -37,7 +37,7 @@ const lint = (api: Api, args: StylelintFlags = {}) => {
     .filter(rootIgnorer)
     .filter(cwdIgnorer)
     .filter((item) => {
-      return !createIgnorer(config.files)(item);
+      return !ignoreFilter({ patterns: config.files })(item);
     });
 
   const unstagedFiles = staged
@@ -47,7 +47,7 @@ const lint = (api: Api, args: StylelintFlags = {}) => {
         .filter(rootIgnorer)
         .filter(cwdIgnorer)
         .filter((item) => {
-          return !createIgnorer(config.files)(item);
+          return !ignoreFilter({ patterns: config.files })(item);
         })
     : [];
 

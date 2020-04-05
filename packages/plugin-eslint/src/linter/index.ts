@@ -2,7 +2,7 @@ import { join, dirname } from 'path';
 import { CLIEngine } from 'eslint';
 import deglob from 'deglob';
 import { Api } from '@walrus/types';
-import { scm as Scm, createIgnorer, getIgnore, createMatcher } from '@walrus/utils';
+import { scm as Scm, createMatcher, ignoreFilter } from '@walrus/utils';
 import { PluginEslintConfig } from '../types';
 import { HOME_OR_TMP, DEFAULT_IGNORE, DEFAULT_PATTERNS } from './config';
 
@@ -132,12 +132,10 @@ class Linter {
 
     onFoundSinceRevision && onFoundSinceRevision(this.scm.name, revision);
 
-    const rootIgnorer = createIgnorer(getIgnore(this.api.cwd) as any);
+    const rootIgnorer = ignoreFilter({ directory: this.api.cwd });
     const cwdIgnorer =
-      currentDirectory !== directory
-        ? createIgnorer(getIgnore(currentDirectory) as any)
-        : () => true;
-    const esIgnorer = createIgnorer(DEFAULT_PATTERNS);
+      currentDirectory !== directory ? ignoreFilter({ directory: currentDirectory }) : () => true;
+    const esIgnorer = ignoreFilter({ patterns: DEFAULT_PATTERNS });
 
     const changedFiles = this.scm
       .getChangedFiles(directory, revision, staged)

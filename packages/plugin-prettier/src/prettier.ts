@@ -1,5 +1,5 @@
 import { Api } from '@walrus/types';
-import { createIgnorer, getIgnore, createMatcher, scm as Scm } from '@walrus/utils';
+import { createMatcher, ignoreFilter, scm as Scm } from '@walrus/utils';
 import { PluginPrettierConfig } from './types';
 import { processFiles, isSupportedExtension } from './utils';
 
@@ -37,9 +37,9 @@ const prettier = (api: Api, options: PluginPrettierConfig = {}) => {
 
   onFoundSinceRevision && onFoundSinceRevision(scm.name, revision);
 
-  const rootIgnorer = createIgnorer(getIgnore(api.cwd) as any);
+  const rootIgnorer = ignoreFilter({ directory: api.cwd });
   const cwdIgnorer =
-    currentDirectory !== directory ? createIgnorer(getIgnore(currentDirectory) as any) : () => true;
+    currentDirectory !== directory ? ignoreFilter({ directory: currentDirectory }) : () => true;
 
   const changedFiles = scm
     .getChangedFiles(directory, revision, staged)
