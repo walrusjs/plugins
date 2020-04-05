@@ -1,6 +1,6 @@
 import resolveFrom from 'resolve-from';
 import resolveGlobal from 'resolve-global';
-import { lodash } from '@birman/utils';
+import { lodash } from '@walrus/utils';
 import { UserConfig, ParserPreset, Flags } from '../types';
 
 /**

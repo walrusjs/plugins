@@ -2,6 +2,7 @@ import { join, dirname } from 'path';
 import { CLIEngine } from 'eslint';
 import deglob from 'deglob';
 import { Api } from '@walrus/types';
+import { scm as Scm, createIgnorer, getIgnore, createMatcher } from '@walrus/utils';
 import { PluginEslintConfig } from '../types';
 import { HOME_OR_TMP, DEFAULT_IGNORE, DEFAULT_PATTERNS } from './config';
 
@@ -21,7 +22,7 @@ class Linter {
     this.args = args;
     this.oldOpts = oldOpts;
     this.cwd = api.cwd || process.cwd();
-    this.scm = api.scm(this.cwd);
+    this.scm = Scm(this.cwd);
 
     const m = opts.version && opts.version.match(/^(\d+)\./);
     const majorVersion = (m && m[1]) || '0';
@@ -72,7 +73,7 @@ class Linter {
 
     deglob(files, deglobOpts, function (err, allFiles) {
       if (err) {
-        console.log(chalk.red(err));
+        console.log(chalk.red(err as any));
         process.exit(1);
       }
 
@@ -131,16 +132,16 @@ class Linter {
 
     onFoundSinceRevision && onFoundSinceRevision(this.scm.name, revision);
 
-    const rootIgnorer = this.api.createIgnorer(this.api.getIgnore(this.api.cwd));
+    const rootIgnorer = createIgnorer(getIgnore(this.api.cwd) as any);
     const cwdIgnorer =
       currentDirectory !== directory
-        ? this.api.createIgnorer(this.api.getIgnore(currentDirectory))
+        ? createIgnorer(getIgnore(currentDirectory) as any)
         : () => true;
-    const esIgnorer = this.api.createIgnorer(DEFAULT_PATTERNS);
+    const esIgnorer = createIgnorer(DEFAULT_PATTERNS);
 
     const changedFiles = this.scm
       .getChangedFiles(directory, revision, staged)
-      .filter(this.api.createMatcher(pattern))
+      .filter(createMatcher(pattern))
       .filter(rootIgnorer)
       .filter(cwdIgnorer)
       .filter((item) => !esIgnorer(item));
@@ -148,7 +149,7 @@ class Linter {
     const unstagedFiles = staged
       ? this.scm
           .getUnstagedChangedFiles(directory)
-          .filter(this.api.createMatcher(pattern))
+          .filter(createMatcher(pattern))
           .filter(rootIgnorer)
           .filter(cwdIgnorer)
           .filter((item) => !esIgnorer(item))

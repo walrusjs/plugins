@@ -1,5 +1,6 @@
 import { Api } from '@walrus/types';
 import stylelint from 'stylelint';
+import { scm as Scm, createIgnorer, getIgnore, createMatcher } from '@walrus/utils';
 import lintConfig from './stylelint.config.js';
 import { PluginStylelintConfig, StylelintFlags } from './types';
 
@@ -17,7 +18,7 @@ const lint = (api: Api, args: StylelintFlags = {}) => {
 
   const { staged, branch, since, pattern, files } = config;
   const currentDirectory = api.cwd;
-  const scm = api.scm(currentDirectory);
+  const scm = Scm(currentDirectory);
 
   if (!scm) {
     throw new Error('Unable to detect a source control manager.');
@@ -26,29 +27,27 @@ const lint = (api: Api, args: StylelintFlags = {}) => {
   const directory = scm.rootDirectory;
   const revision = since || scm.getSinceRevision(directory, { staged, branch });
 
-  const rootIgnorer = api.createIgnorer(api.getIgnore(api.cwd));
+  const rootIgnorer = createIgnorer(getIgnore(api.cwd) as any);
   const cwdIgnorer =
-    currentDirectory !== directory
-      ? api.createIgnorer(api.getIgnore(currentDirectory))
-      : () => true;
+    currentDirectory !== directory ? createIgnorer(getIgnore(currentDirectory) as any) : () => true;
 
   const changedFiles = scm
     .getChangedFiles(directory, revision, staged)
-    .filter(api.createMatcher(pattern))
+    .filter(createMatcher(pattern))
     .filter(rootIgnorer)
     .filter(cwdIgnorer)
     .filter((item) => {
-      return !api.createIgnorer(config.files)(item);
+      return !createIgnorer(config.files)(item);
     });
 
   const unstagedFiles = staged
     ? scm
         .getUnstagedChangedFiles(directory)
-        .filter(api.createMatcher(pattern))
+        .filter(createMatcher(pattern))
         .filter(rootIgnorer)
         .filter(cwdIgnorer)
         .filter((item) => {
-          return !api.createIgnorer(config.files)(item);
+          return !createIgnorer(config.files)(item);
         })
     : [];
 

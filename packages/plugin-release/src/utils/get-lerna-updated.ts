@@ -1,5 +1,5 @@
 import { logStep } from './';
-import { execa } from '@birman/utils';
+import { execa } from '@walrus/utils';
 
 const lernaCli = require.resolve('lerna/cli');
 
@@ -14,13 +14,13 @@ const getLernaUpdated = (publishOnly: boolean) => {
 
     updated = updatedStdout
       .split('\n')
-      .map(pkg => {
+      .map((pkg) => {
         return pkg.split('/')[1];
       })
       .filter(Boolean);
   }
 
   return updated;
-}
+};
 
 export default getLernaUpdated;

@@ -1,6 +1,6 @@
 import { join } from 'path';
 import { writeFileSync } from 'fs';
-import { chalk } from '@birman/utils';
+import { chalk } from '@walrus/utils';
 import { exec, logStep } from '../utils';
 import { ReleasePluginConfig } from '../types';
 

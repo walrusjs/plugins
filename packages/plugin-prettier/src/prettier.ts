@@ -1,4 +1,5 @@
 import { Api } from '@walrus/types';
+import { createIgnorer, getIgnore, createMatcher, scm as Scm } from '@walrus/utils';
 import { PluginPrettierConfig } from './types';
 import { processFiles, isSupportedExtension } from './utils';
 
@@ -9,7 +10,7 @@ import { processFiles, isSupportedExtension } from './utils';
  */
 const prettier = (api: Api, options: PluginPrettierConfig = {}) => {
   const currentDirectory = api.cwd;
-  const scm = api.scm(currentDirectory);
+  const scm = Scm(currentDirectory);
   const {
     staged,
     branch,
@@ -36,16 +37,14 @@ const prettier = (api: Api, options: PluginPrettierConfig = {}) => {
 
   onFoundSinceRevision && onFoundSinceRevision(scm.name, revision);
 
-  const rootIgnorer = api.createIgnorer(api.getIgnore(api.cwd));
+  const rootIgnorer = createIgnorer(getIgnore(api.cwd) as any);
   const cwdIgnorer =
-    currentDirectory !== directory
-      ? api.createIgnorer(api.getIgnore(currentDirectory))
-      : () => true;
+    currentDirectory !== directory ? createIgnorer(getIgnore(currentDirectory) as any) : () => true;
 
   const changedFiles = scm
     .getChangedFiles(directory, revision, staged)
     .filter(isSupportedExtension)
-    .filter(api.createMatcher(pattern))
+    .filter(createMatcher(pattern))
     .filter(rootIgnorer)
     .filter(cwdIgnorer);
 
@@ -53,7 +52,7 @@ const prettier = (api: Api, options: PluginPrettierConfig = {}) => {
     ? scm
         .getUnstagedChangedFiles(directory)
         .filter(isSupportedExtension)
-        .filter(api.createMatcher(pattern))
+        .filter(createMatcher(pattern))
         .filter(rootIgnorer)
         .filter(cwdIgnorer)
     : [];

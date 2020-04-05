@@ -1,5 +1,5 @@
 import { Api } from '@walrus/types';
-import { chalk, lodash } from '@birman/utils';
+import { chalk, lodash } from '@walrus/utils';
 import { join } from 'path';
 import { existsSync } from 'fs';
 import Linter from './linter';

@@ -9,14 +9,14 @@
   "scripts": {
     "build": "father-build",
     "test": "birman-test",
-    "links": "yarn link @walrus/cli && yarn link @walrus/preset-internal && yarn link @walrus/core && yarn link @walrus/types",
+    "links": "yarn link @walrus/cli && yarn link @walrus/preset-internal && yarn link @walrus/core && yarn link @walrus/types && yarn link @walrus/utils",
     "prettier": "walrus prettier",
-    "lint": "walrus lint",
+    "lint:es": "walrus eslint",
     "lint:commit": "walrus commitlint --env HUSKY_GIT_PARAMS",
     "release": "walrus release"
   },
   "devDependencies": {
-    "@walrus/cli": "^1.1.3",
+    "@walrus/cli": "^1.2.0",
     "@walrus/test": "^1.0.1",
     "father-build": "^1.17.2",
     "husky": "3.1.0",

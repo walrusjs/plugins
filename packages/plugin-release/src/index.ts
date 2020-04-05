@@ -1,5 +1,5 @@
 import { Api } from '@walrus/types';
-import { semver, isLernaPackage, execa, chalk } from '@birman/utils';
+import { semver, isLernaPackage, execa, chalk } from '@walrus/utils';
 import {
   exec,
   logStep,

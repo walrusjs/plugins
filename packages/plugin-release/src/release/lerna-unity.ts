@@ -1,5 +1,5 @@
 import { join } from 'path';
-import { execa, chalk } from '@birman/utils';
+import { execa, chalk } from '@walrus/utils';
 import { exec, logStep, getPackages, isNextVersion, printErrorAndExit } from '../utils';
 import { ReleasePluginConfig } from '../types';
 

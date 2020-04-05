@@ -2,7 +2,7 @@ import stdin from 'get-stdin';
 import load from '@commitlint/load';
 import lint from '@commitlint/lint';
 import read from '@commitlint/read';
-import { lodash } from '@birman/utils';
+import { lodash } from '@walrus/utils';
 import {
   checkFromStdin,
   normalizeFlags,

@@ -1,6 +1,6 @@
 import { join } from 'path';
 import inquirer from 'inquirer';
-import { chalk, execa } from '@birman/utils';
+import { chalk, execa } from '@walrus/utils';
 import { LernaInfo } from '../types';
 
 export function logStep(name) {
@@ -18,11 +18,13 @@ export function packageExists({ name, version }): boolean {
 }
 
 export async function confirmVersion(version: string) {
-  const { yes } = await inquirer.prompt([{
-    name: 'yes',
-    message: `Confirm releasing ${version}?`,
-    type: 'confirm'
-  }]);
+  const { yes } = await inquirer.prompt([
+    {
+      name: 'yes',
+      message: `Confirm releasing ${version}?`,
+      type: 'confirm'
+    }
+  ]);
 
   return yes;
 }

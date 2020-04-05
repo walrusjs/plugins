@@ -1,4 +1,4 @@
-import { execa } from '@birman/utils';
+import { execa } from '@walrus/utils';
 
 export const latestTag = async () => {
   const { stdout } = await execa('git', ['describe', '--abbrev=0', '--tags']);
@@ -6,11 +6,7 @@ export const latestTag = async () => {
 };
 
 export const firstCommit = async () => {
-  const { stdout } = await execa('git', [
-    'rev-list',
-    '--max-parents=0',
-    'HEAD',
-  ]);
+  const { stdout } = await execa('git', ['rev-list', '--max-parents=0', 'HEAD']);
   return stdout;
 };
 
@@ -27,11 +23,7 @@ export const latestTagOrFirstCommit = async () => {
   return latest;
 };
 
-export const commitLogFromRevision = async revision => {
-  const { stdout } = await execa('git', [
-    'log',
-    '--format=%s %h',
-    `${revision}..HEAD`,
-  ]);
+export const commitLogFromRevision = async (revision) => {
+  const { stdout } = await execa('git', ['log', '--format=%s %h', `${revision}..HEAD`]);
   return stdout;
 };
