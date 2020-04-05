@@ -13,7 +13,7 @@ class Linter {
   private customOpts: PluginEslintConfig;
   private eslintConfig: CLIEngine.Options;
 
-  constructor(opts: PluginEslintConfig & { api: Api }, args) {
+  constructor(opts: PluginEslintConfig & { api: Api }, args: any) {
     const { api, ...oldOpts } = opts;
 
     this.api = opts.api;
@@ -49,7 +49,9 @@ class Linter {
 
   lintFiles = (files: string[]) => {
     const self = this;
-    const { utils: { lodash, chalk } } = self.api;
+    const {
+      utils: { lodash, chalk }
+    } = self.api;
 
     if (lodash.isString(files)) {
       files = [files];
@@ -65,16 +67,16 @@ class Linter {
       usePackageJson: false
     };
 
-    deglob(files, deglobOpts, function(err, allFiles) {
+    deglob(files, deglobOpts, function (err, allFiles) {
       if (err) {
         console.log(chalk.red(err));
         process.exit(1);
-      };
+      }
 
       let cli;
       let result;
       try {
-        cli = new CLIEngine(self.customOpts.eslintConfig)
+        cli = new CLIEngine(self.customOpts.eslintConfig || {});
         result = cli.executeOnFiles(allFiles);
       } catch (err) {
         console.log(chalk.red(err));
@@ -88,9 +90,13 @@ class Linter {
       if (cli && result) {
         const formatter = cli.getFormatter();
         console.log(formatter(result.results));
+        // 检查不通过则退出
+        if (result.errorCount !== 0) {
+          process.exit(1);
+        }
       }
     });
-  }
+  };
 
   getChangedFiles = () => {
     const { staged, branch, since, pattern } = this.oldOpts;
@@ -131,11 +137,13 @@ class Linter {
     const wasFullyStaged = (f) => unstagedFiles.indexOf(f) < 0;
 
     return changedFiles;
-  }
+  };
 
   parseOpts = (opts: PluginEslintConfig = {}) => {
     const self = this;
-    const { utils: { lodash } } = self.api;
+    const {
+      utils: { lodash }
+    } = self.api;
 
     opts = Object.assign({}, opts);
     opts.eslintConfig = Object.assign({}, self.eslintConfig);
@@ -148,7 +156,7 @@ class Linter {
       addIgnore(DEFAULT_IGNORE);
     }
 
-     // globals
+    // globals
     addGlobals(opts.globals);
 
     // plugins
@@ -182,7 +190,7 @@ class Linter {
     function addEnvs(envs) {
       if (!envs) return;
       if (!lodash.isArray(envs) && !lodash.isString(envs)) {
-        envs = Object.keys(envs).filter(function(env) {
+        envs = Object.keys(envs).filter(function (env) {
           return envs[env];
         });
       }
@@ -195,7 +203,7 @@ class Linter {
     }
 
     return opts;
-  }
+  };
 
   run() {
     if (this.oldOpts.staged) {
