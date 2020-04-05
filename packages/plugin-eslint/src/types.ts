@@ -19,4 +19,8 @@ export interface PluginEslintConfig {
   plugins?: string[];
   parser?: string;
   disabledDefaultIgnore?: boolean;
+  onWriteFile?: (relative) => void;
+  onPartiallyStagedFile?: (file) => void;
+  onFoundSinceRevision?: (name: string, revision: string) => void;
+  onFoundChangedFiles?: (changeFiles: string[]) => void;
 }

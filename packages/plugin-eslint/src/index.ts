@@ -1,16 +1,16 @@
 import { Api } from '@walrus/types';
+import { chalk, lodash } from '@birman/utils';
 import { join } from 'path';
 import { existsSync } from 'fs';
 import Linter from './linter';
 import { PluginEslintConfig, RuleType } from './types';
 
 const defaultConfig: PluginEslintConfig = {
-  ruleType: 'typescript'
+  ruleType: 'typescript',
+  fix: true
 };
 
-export default function(api: Api) {
-  const { lodash } = api.utils;
-
+export default function (api: Api) {
   api.describe({
     key: 'eslint',
     config: {
@@ -23,11 +23,11 @@ export default function(api: Api) {
           ignorePattern: joi.array().items(joi.string()),
           maxWarnings: joi.number()
         });
-      },
+      }
     }
   });
 
-  function getEslintConfigFilePath(type: RuleType) {
+  function getEslintConfigFilePath(type: RuleType = 'default') {
     const fileName = `eslint${type === 'default' ? '' : '.' + type}.config.js`;
 
     return join(__dirname, `./config/${fileName}`);
@@ -56,15 +56,33 @@ export default function(api: Api) {
 
       const config = api.mergeConfig(userConfig, args);
 
-      const linter = new Linter({
-        api,
-        ...config,
-        eslintConfig: {
-          configFile: eslintConfigFilePath
-        }
-      }, args);
+      const linter = new Linter(
+        {
+          api,
+          ...config,
+          eslintConfig: {
+            configFile: eslintConfigFilePath
+          },
+          onWriteFile: (file) => {
+            console.log(`✍️  Fixing up ${chalk.bold(file)}.`);
+          },
+          onFoundSinceRevision: (scm, revision) => {
+            console.log(
+              `🔍  Finding changed files since ${chalk.bold(scm)} revision ${chalk.bold(revision)}.`
+            );
+          },
+          onFoundChangedFiles: (changedFiles) => {
+            console.log(
+              `🎯  Found ${chalk.bold(changedFiles.length)} changed ${
+                changedFiles.length === 1 ? 'file' : 'files'
+              }.`
+            );
+          }
+        },
+        args
+      );
 
       linter.run();
     }
-  })
+  });
 }

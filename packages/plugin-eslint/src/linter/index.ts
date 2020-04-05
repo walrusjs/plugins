@@ -49,6 +49,7 @@ class Linter {
 
   lintFiles = (files: string[]) => {
     const self = this;
+    const { onWriteFile } = this.oldOpts;
     const {
       utils: { lodash, chalk }
     } = self.api;
@@ -85,6 +86,12 @@ class Linter {
 
       if (self.customOpts.fix) {
         CLIEngine.outputFixes(result);
+
+        const results = result.results || [];
+
+        results.forEach((item) => {
+          onWriteFile && onWriteFile(item.filePath);
+        });
       }
 
       if (cli && result) {
@@ -93,13 +100,22 @@ class Linter {
         // 检查不通过则退出
         if (result.errorCount !== 0) {
           process.exit(1);
+        } else {
+          console.log('✅  Everything is awesome!');
         }
       }
     });
   };
 
   getChangedFiles = () => {
-    const { staged, branch, since, pattern } = this.oldOpts;
+    const {
+      staged,
+      branch,
+      since,
+      pattern,
+      onFoundChangedFiles,
+      onFoundSinceRevision
+    } = this.oldOpts;
 
     const currentDirectory = this.api.cwd;
     const scm = this.api.scm(currentDirectory);
@@ -110,6 +126,8 @@ class Linter {
 
     const directory = scm.rootDirectory;
     const revision = since || scm.getSinceRevision(directory, { staged, branch });
+
+    onFoundSinceRevision && onFoundSinceRevision(scm.name, revision);
 
     const rootIgnorer = this.api.createIgnorer(this.api.getIgnore(this.api.cwd));
     const cwdIgnorer =
@@ -135,6 +153,8 @@ class Linter {
       : [];
 
     const wasFullyStaged = (f) => unstagedFiles.indexOf(f) < 0;
+
+    onFoundChangedFiles && onFoundChangedFiles(changedFiles);
 
     return changedFiles;
   };
@@ -207,7 +227,12 @@ class Linter {
 
   run() {
     if (this.oldOpts.staged) {
-      this.lintFiles(this.getChangedFiles());
+      const files = this.getChangedFiles();
+      if (files.length) {
+        this.lintFiles(files);
+      } else {
+        console.log('✅  Everything is awesome!');
+      }
     } else {
       this.lintFiles(this.args._ || []);
     }
