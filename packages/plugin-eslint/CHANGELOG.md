@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://github.com/walrusjs/plugins/compare/@walrus/plugin-eslint@1.1.1...@walrus/plugin-eslint@1.2.0) (2020-04-06)
+
+### Features
+
+- **plugin-eslint:** eslint 默认开启 fix ([e186b82](https://github.com/walrusjs/plugins/commit/e186b826dc5b0023edb58d2b097f2276486a3b9e))
+- replace @birman/utils ([7a00d81](https://github.com/walrusjs/plugins/commit/7a00d81f4c85249e37686d8b9b5905db9968f5a1))
+- 代码优化 ([4bd29ff](https://github.com/walrusjs/plugins/commit/4bd29ff6b2735f099ab75d28b8573b25144289e4))
+- 添加修复后的文件重新暂存的功能 ([376709c](https://github.com/walrusjs/plugins/commit/376709c3b1a2d4127d858cc1c507bdee54437cb5))
+
 ## [1.1.1](https://github.com/walrusjs/plugins/compare/@walrus/plugin-eslint@1.1.0...@walrus/plugin-eslint@1.1.1) (2020-04-05)
 
 ### Bug Fixes

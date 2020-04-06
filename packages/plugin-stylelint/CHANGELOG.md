@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://github.com/walrusjs/plugins/compare/@walrus/plugin-stylelint@1.1.1...@walrus/plugin-stylelint@1.2.0) (2020-04-06)
+
+### Features
+
+- replace @birman/utils ([7a00d81](https://github.com/walrusjs/plugins/commit/7a00d81f4c85249e37686d8b9b5905db9968f5a1))
+- 代码优化 ([4bd29ff](https://github.com/walrusjs/plugins/commit/4bd29ff6b2735f099ab75d28b8573b25144289e4))
+
 ## [1.1.1](https://github.com/walrusjs/plugins/compare/@walrus/plugin-stylelint@1.1.0...@walrus/plugin-stylelint@1.1.1) (2020-03-31)
 
 ### Bug Fixes

@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.8.0](https://github.com/walrusjs/plugins/compare/@walrus/plugin-release@1.7.0...@walrus/plugin-release@1.8.0) (2020-04-06)
+
+### Features
+
+- replace @birman/utils ([7a00d81](https://github.com/walrusjs/plugins/commit/7a00d81f4c85249e37686d8b9b5905db9968f5a1))
+
 # [1.7.0](https://github.com/walrusjs/plugins/compare/@walrus/plugin-release@1.6.0...@walrus/plugin-release@1.7.0) (2020-03-29)
 
 ### Bug Fixes
