@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.1](https://github.com/walrusjs/plugins/compare/@walrus/plugin-eslint@1.2.0...@walrus/plugin-eslint@1.2.1) (2020-04-07)
+
+### Bug Fixes
+
+- 关闭报错的 eslint 规则 ([0a1ed31](https://github.com/walrusjs/plugins/commit/0a1ed313664adaef868440e239df5b97fd8d5a88))
+
 # [1.2.0](https://github.com/walrusjs/plugins/compare/@walrus/plugin-eslint@1.1.1...@walrus/plugin-eslint@1.2.0) (2020-04-06)
 
 ### Features
