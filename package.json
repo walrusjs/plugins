@@ -8,7 +8,7 @@
   "license": "MIT",
   "scripts": {
     "build": "father-build",
-    "test": "birman-test",
+    "test": "walrus-test",
     "links": "yarn link @walrus/cli && yarn link @walrus/preset-internal && yarn link @walrus/core && yarn link @walrus/types && yarn link @walrus/utils",
     "prettier": "walrus prettier",
     "lint:es": "walrus eslint",
@@ -18,10 +18,10 @@
   "devDependencies": {
     "@walrus/cli": "^1.3.0",
     "@walrus/test": "^1.0.1",
-    "father-build": "^1.17.2",
+    "father-build": "^1.18.1",
     "husky": "3.1.0",
-    "lerna": "^3.20.2",
-    "typescript": "^3.8.3"
+    "lerna": "^3.22.1",
+    "typescript": "^3.9.5"
   },
   "husky": {
     "hooks": {

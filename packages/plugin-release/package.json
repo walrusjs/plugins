@@ -13,10 +13,10 @@
   },
   "dependencies": {
     "escape-goat": "^3.0.0",
-    "inquirer": "^7.1.0",
-    "lerna": "^3.20.2",
+    "inquirer": "^7.2.0",
+    "lerna": "^3.22.1",
     "new-github-release-url": "^1.0.0",
-    "open": "^7.0.3"
+    "open": "^7.0.4"
   },
   "publishConfig": {
     "access": "public"
