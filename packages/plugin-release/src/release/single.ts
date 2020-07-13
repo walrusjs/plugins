@@ -23,8 +23,12 @@ async function release(cwd: string, version: string, args: ReleasePluginConfig) 
   await exec('git', ['tag', `v${version}`]);
 
   // Push
-  logStep(`git push`);
+  logStep(`git push tags`);
   await exec('git', ['push', 'origin', '--tags']);
+
+  // Push
+  logStep(`git push`);
+  await exec('git', ['push']);
 
   if (!args.skipPublish) {
     logStep(`npm pulish`);
