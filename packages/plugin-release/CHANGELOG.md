@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.8.1](https://github.com/walrusjs/plugins/compare/@walrus/plugin-release@1.8.0...@walrus/plugin-release@1.8.1) (2020-07-13)
+
+### Bug Fixes
+
+- **plugin-release:** 修复打完 Tag 不自动提交 ([4b8be37](https://github.com/walrusjs/plugins/commit/4b8be37d0cce7bd7d0587177a3caa7ae15ab0b4b))
+
 # [1.8.0](https://github.com/walrusjs/plugins/compare/@walrus/plugin-release@1.7.0...@walrus/plugin-release@1.8.0) (2020-04-06)
 
 ### Features
