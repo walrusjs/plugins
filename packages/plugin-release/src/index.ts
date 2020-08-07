@@ -29,6 +29,7 @@ export default function (api: Api) {
       schema(joi) {
         return joi.object({
           skipBuild: joi.boolean(),
+          skipSync: joi.boolean(),
           skipPublish: joi.boolean(),
           repoUrl: joi.string(),
           skipChangelog: joi.string(),
