@@ -1,7 +1,7 @@
 import { join } from 'path';
 import { writeFileSync } from 'fs';
 import { chalk } from '@walrus/utils';
-import { exec, logStep } from '../utils';
+import { exec, logStep, syncTNpm } from '../utils';
 import { ReleasePluginConfig } from '../types';
 
 async function release(cwd: string, version: string, args: ReleasePluginConfig) {
@@ -36,6 +36,12 @@ async function release(cwd: string, version: string, args: ReleasePluginConfig) 
     await exec('npm', ['publish']);
   } else {
     logStep('npm registryre check is skipped, since --skip-publish is supplied');
+  }
+
+  // 是否同步到淘宝源
+  if (rootPkg.name && args.skipSync) {
+    logStep(`sync tnpm`);
+    syncTNpm([rootPkg.name]);
   }
 
   logStep('done');

@@ -43,6 +43,7 @@ export function resolveLerna(cwd: string): LernaInfo {
 
 export { default as exec } from './exec';
 export { default as getLernaUpdated } from './get-lerna-updated';
+export { default as syncTNpm } from './sync-tnpm';
 export { default as getChangelog } from './get-changelog';
 export { default as getPackages } from './get-packages';
 export { default as isNextVersion } from './is-next-version';

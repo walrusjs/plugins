@@ -14,6 +14,7 @@ import { Mode, ReleasePluginConfig } from './types';
 
 const defaultConfig: ReleasePluginConfig = {
   skipBuild: false,
+  skipSync: true,
   skipPublish: false,
   skipGitStatusCheck: false,
   buildCommand: 'build',

@@ -1,6 +1,6 @@
 import { join } from 'path';
 import { execa, chalk } from '@walrus/utils';
-import { exec, logStep, getPackages, isNextVersion, printErrorAndExit } from '../utils';
+import { exec, logStep, getPackages, isNextVersion, printErrorAndExit, syncTNpm } from '../utils';
 import { ReleasePluginConfig } from '../types';
 
 const lernaCli = require.resolve('lerna/cli');
@@ -71,6 +71,16 @@ async function release(
         console.log(stdout);
       }
     });
+
+    if (!args.skipSync) {
+      logStep(`sync tnpm`);
+
+      const pkgNames = pkgs
+        .map((name) => require(join(__dirname, '../packages', name, 'package.json')).name)
+        .filter((item) => item);
+
+      syncTNpm(pkgNames);
+    }
   }
 
   if (releaseNotes && args.repoUrlPrefix && args.repoUrl) {

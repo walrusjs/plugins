@@ -5,6 +5,7 @@ import {
   logStep,
   packageExists,
   exec,
+  syncTNpm,
   getPackages,
   isNextVersion,
   getLernaUpdated
@@ -73,6 +74,16 @@ async function release(cwd: string, args: ReleasePluginConfig) {
         console.log(stdout);
       }
     });
+
+    if (!args.skipSync) {
+      logStep(`sync tnpm`);
+
+      const pkgNames = pkgs
+        .map((name) => require(join(__dirname, '../packages', name, 'package.json')).name)
+        .filter((item) => item);
+
+      syncTNpm(pkgNames);
+    }
   }
 
   logStep('done');

@@ -10,6 +10,8 @@ export interface LernaInfo {
 export interface ReleasePluginConfig {
   // 跳过编译
   skipBuild?: boolean;
+  // 是否跳过同步到淘宝源
+  skipSync?: boolean;
   // 跳过发布
   skipPublish?: boolean;
   // 仓库地址
