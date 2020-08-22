@@ -1,0 +1,16 @@
+{
+  "name": "@walrus/plugin-test",
+  "version": "1.0.0",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "lib"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@walrus/test": "^1.1.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
