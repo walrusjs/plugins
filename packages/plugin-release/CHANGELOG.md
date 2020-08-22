@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.9.1](https://github.com/walrusjs/plugins/compare/@walrus/plugin-release@1.9.0...@walrus/plugin-release@1.9.1) (2020-08-22)
+
+
+### Bug Fixes
+
+* **plugin-release:** 修复跳过同步淘宝源逻辑判断 ([c59015e](https://github.com/walrusjs/plugins/commit/c59015e331a9c6026f1f24fbfe6d58ec094b18c1))
+
+
+
+
+
 # [1.9.0](https://github.com/walrusjs/plugins/compare/@walrus/plugin-release@1.8.1...@walrus/plugin-release@1.9.0) (2020-08-22)
 
 
