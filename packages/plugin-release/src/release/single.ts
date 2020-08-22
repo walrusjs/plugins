@@ -39,7 +39,7 @@ async function release(cwd: string, version: string, args: ReleasePluginConfig) 
   }
 
   // 是否同步到淘宝源
-  if (rootPkg.name && args.skipSync) {
+  if (rootPkg.name && !args.skipSync) {
     logStep(`sync tnpm`);
     syncTNpm([rootPkg.name]);
   }
