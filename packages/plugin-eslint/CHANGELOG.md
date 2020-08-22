@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.2](https://github.com/walrusjs/plugins/compare/@walrus/plugin-eslint@1.2.1...@walrus/plugin-eslint@1.2.2) (2020-08-22)
+
+**Note:** Version bump only for package @walrus/plugin-eslint
+
+
+
+
+
 ## [1.2.1](https://github.com/walrusjs/plugins/compare/@walrus/plugin-eslint@1.2.0...@walrus/plugin-eslint@1.2.1) (2020-04-07)
 
 ### Bug Fixes
