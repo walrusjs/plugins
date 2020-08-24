@@ -6,6 +6,7 @@
 
 插件列表
 
+* [plugin-test](https://github.com/walrusjs/plugins/tree/master/packages/plugin-test)
 * [plugin-commitlint](https://github.com/walrusjs/plugins/tree/master/packages/plugin-commitlint)
 * [plugin-eslint](https://github.com/walrusjs/plugins/tree/master/packages/plugin-eslint)
 * [plugin-prettier](https://github.com/walrusjs/plugins/tree/master/packages/plugin-prettier)
