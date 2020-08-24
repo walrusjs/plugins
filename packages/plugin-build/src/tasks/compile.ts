@@ -37,27 +37,27 @@ export default function compile(modules) {
     '!components/**/__tests__/**',
   ];
 
-  const tsResult = gulp.src(source)
-    .pipe(
-      typescript(tsConfig, {
-        error(e) {
-          tsDefaultReporter.error(e);
-          error = 1;
-        },
-        finish: tsDefaultReporter.finish,
-      })
-    );
+  // const tsResult = gulp.src(source)
+  //   .pipe(
+  //     typescript(tsConfig, {
+  //       error(e) {
+  //         tsDefaultReporter.error(e);
+  //         error = 1;
+  //       },
+  //       finish: tsDefaultReporter.finish,
+  //     })
+  //   );
 
-  function check() {
-    if (error) {
-      process.exit(1);
-    }
-  }
+  // function check() {
+  //   if (error) {
+  //     process.exit(1);
+  //   }
+  // }
 
-  tsResult.on('finish', check);
-  tsResult.on('end', check);
+  // tsResult.on('finish', check);
+  // tsResult.on('end', check);
   // const tsFilesStream = babelify(tsResult.js, modules);
-  const tsd = tsResult.dts.pipe(distDir);
+  // const tsd = tsResult.dts.pipe(distDir);
 
   return merge2([compileLess, assets]);
 }
