@@ -3447,6 +3447,24 @@
     regenerator-runtime "^0.13.7"
     whatwg-fetch "^3.4.0"
 
+"@walrus/test@^1.1.2":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@walrus/test/-/test-1.1.2.tgz#5869c213c6d1570e9123d996e7669681fd46ef29"
+  integrity sha512-mr/Nx8bPE3hKdi+pnKJNy6Y4tpzczCiVhvxItS0cbXES+2JlNRPc3GsjfkL7ILWM1lwZOD6GAQWTk9htHcODjQ==
+  dependencies:
+    "@babel/core" "^7.11.4"
+    "@birman/babel-preset-birman" "^1.2.1"
+    "@birman/utils" "^1.2.1"
+    "@types/jest" "^26.0.10"
+    babel-jest "^26.3.0"
+    core-js "^3.6.5"
+    identity-obj-proxy "^3.0.0"
+    jest "^26.4.1"
+    jest-cli "^26.4.1"
+    jest-environment-jsdom-fourteen "^1.0.1"
+    regenerator-runtime "^0.13.7"
+    whatwg-fetch "^3.4.0"
+
 "@walrus/types@1.3.1":
   version "1.3.1"
   resolved "https://registry.yarnpkg.com/@walrus/types/-/types-1.3.1.tgz#f8f8f24b7b86ece280cb9a1340dd9489faa2684b"

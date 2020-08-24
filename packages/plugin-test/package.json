@@ -8,7 +8,7 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "@walrus/test": "^1.1.1"
+    "@walrus/test": "^1.1.2"
   },
   "publishConfig": {
     "access": "public"
