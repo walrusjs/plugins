@@ -1,6 +1,6 @@
 {
   "name": "@walrus/preset-lint",
-  "version": "1.1.6",
+  "version": "1.1.7",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "files": [
@@ -9,8 +9,8 @@
   "license": "MIT",
   "dependencies": {
     "@walrus/plugin-commitlint": "1.2.1",
-    "@walrus/plugin-eslint": "1.2.2",
-    "@walrus/plugin-prettier": "1.2.1",
+    "@walrus/plugin-eslint": "1.2.3",
+    "@walrus/plugin-prettier": "1.2.2",
     "@walrus/plugin-stylelint": "1.2.1"
   },
   "publishConfig": {

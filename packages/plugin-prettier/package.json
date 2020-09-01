@@ -1,6 +1,6 @@
 {
   "name": "@walrus/plugin-prettier",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "walrus plugin prettier",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
