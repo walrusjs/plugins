@@ -1,0 +1,11 @@
+# Change Log
+
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+# 0.2.0 (2020-10-24)
+
+### Features
+
+- **plugin-entry:** init ([ee512b3](https://github.com/walrusjs/plugins/commit/ee512b366d4637255689f931d28652c4112eaab8))
+- **plugin-entry:** 功能完成 ([24c7b93](https://github.com/walrusjs/plugins/commit/24c7b931e4ac02f5bea371f7acfb9ddd7ebc772a))
