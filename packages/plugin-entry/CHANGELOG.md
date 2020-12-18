@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.1](https://github.com/walrusjs/plugins/compare/@walrus/plugin-entry@0.2.0...@walrus/plugin-entry@0.2.1) (2020-12-18)
+
+### Bug Fixes
+
+- **plugin-entry:** 修复参数校验问题 ([ee2d39b](https://github.com/walrusjs/plugins/commit/ee2d39bdfef3e9e69113b4c59896b13bb7668ddc))
+
 # 0.2.0 (2020-10-24)
 
 ### Features
