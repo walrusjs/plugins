@@ -31,6 +31,7 @@ export default function (api: Api) {
           sacnParh: joi.string(),
           writePath: joi.string(),
           mode: joi.string(),
+          format: joi.alternatives(joi.string(), joi.function())
         });
       }
     }
