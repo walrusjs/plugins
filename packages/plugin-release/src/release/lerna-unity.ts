@@ -1,10 +1,11 @@
 import { join } from 'path';
 import { execa, chalk } from '@walrus/utils';
-import { exec, logStep, getPackages, isNextVersion, printErrorAndExit, syncTNpm } from '../utils';
+import { exec, logStep, isNextVersion, printErrorAndExit, syncTNpm } from '../utils';
 import { ReleasePluginConfig } from '../types';
 
 const lernaCli = require.resolve('lerna/cli');
 const open = require('open');
+const { getPackages } = require('@lerna/project');
 const newGithubReleaseUrl = require('new-github-release-url');
 
 async function release(
@@ -58,7 +59,7 @@ async function release(
     logStep(`publish packages: ${chalk.blue(pkgs.join(', '))}`);
 
     pkgs.forEach((pkg, index) => {
-      const pkgPath = join(cwd, 'packages', pkg);
+      const pkgPath = pkg.contents;
       const { name, version } = require(join(pkgPath, 'package.json'));
       if (version === currVersion) {
         console.log(

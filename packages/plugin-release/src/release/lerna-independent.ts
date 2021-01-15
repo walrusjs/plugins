@@ -6,12 +6,12 @@ import {
   packageExists,
   exec,
   syncTNpm,
-  getPackages,
   isNextVersion,
   getLernaUpdated
 } from '../utils';
 import { ReleasePluginConfig } from '../types';
 
+const { getPackages } = require('@lerna/project');
 const lernaCli = require.resolve('lerna/cli');
 
 async function release(cwd: string, args: ReleasePluginConfig) {
@@ -53,7 +53,7 @@ async function release(cwd: string, args: ReleasePluginConfig) {
     logStep(`publish packages: ${chalk.blue(pkgs.join(', '))}`);
 
     pkgs.forEach((pkg, index) => {
-      const pkgPath = join(cwd, 'packages', pkg);
+      const pkgPath = pkg.contents;
       const { name, version } = require(join(pkgPath, 'package.json'));
       const isNext = isNextVersion(version);
       let isPackageExist = null;
