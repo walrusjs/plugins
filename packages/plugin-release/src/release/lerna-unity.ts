@@ -59,8 +59,7 @@ async function release(
     logStep(`publish packages: ${chalk.blue(pkgs.join(', '))}`);
 
     pkgs.forEach((pkg, index) => {
-      const pkgPath = pkg.contents;
-      const { name, version } = require(join(pkgPath, 'package.json'));
+      const { name, version, contents: pkgPath } = pkg;
       if (version === currVersion) {
         console.log(
           `[${index + 1}/${pkgs.length}] Publish package ${name} ${isNext ? 'with next tag' : ''}`
