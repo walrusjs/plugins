@@ -4,32 +4,33 @@ import { chalk } from '@walrus/utils';
 import { exec, logStep, syncTNpm } from '../utils';
 import { ReleasePluginConfig } from '../types';
 
-async function release(cwd: string, version: string, args: ReleasePluginConfig) {
+export default async function (cwd: string, version: string, args: ReleasePluginConfig) {
   const pkgPath = join(cwd, 'package.json');
 
-  // Sync version to package.json
+  /** 修改package.json版本 */
   logStep('sync version to root package.json');
   const rootPkg = require(pkgPath);
   rootPkg.version = version;
-  writeFileSync(join(pkgPath), JSON.stringify(rootPkg, null, 2) + '\n', 'utf-8');
+  writeFileSync(pkgPath, JSON.stringify(rootPkg, null, 2) + '\n', 'utf-8');
 
-  // Commit
+  /** 提交代码 */
   const commitMessage = `chore(release): v${version}`;
   logStep(`git commit with ${chalk.blue(commitMessage)}`);
   await exec('git', ['commit', '--all', '--message', commitMessage]);
 
-  // Git Tag
+  /** 创建Tag */
   logStep(`git tag v${version}`);
   await exec('git', ['tag', `v${version}`]);
 
-  // Push
+  /** 提交Tag */
   logStep(`git push tags`);
   await exec('git', ['push', 'origin', '--tags']);
 
-  // Push
+  /** 提交代码到服务器端 */
   logStep(`git push`);
   await exec('git', ['push']);
 
+  /** 发布到npm */
   if (!args.skipPublish) {
     logStep(`npm pulish`);
     // publish
@@ -46,5 +47,3 @@ async function release(cwd: string, version: string, args: ReleasePluginConfig) 
 
   logStep('done');
 }
-
-export default release;
