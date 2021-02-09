@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.10.1](https://github.com/walrusjs/plugins/compare/@walrus/plugin-release@1.10.0...@walrus/plugin-release@1.10.1) (2021-02-09)
+
+### Bug Fixes
+
+- **plugin-release:** 修复 sync tnpm 报名获取问题 ([f2a8125](https://github.com/walrusjs/plugins/commit/f2a81250c224f6ab1a8b454ab26d6c65da5ecee7))
+- 修复获取包报错 ([6f76ef2](https://github.com/walrusjs/plugins/commit/6f76ef2fe3a91aeff54b91655bfcb5c8f3939820))
+
 # [1.10.0](https://github.com/walrusjs/plugins/compare/@walrus/plugin-release@1.9.1...@walrus/plugin-release@1.10.0) (2021-02-09)
 
 ### Bug Fixes
