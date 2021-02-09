@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.8](https://github.com/walrusjs/plugins/compare/@walrus/preset-lint@1.1.7...@walrus/preset-lint@1.1.8) (2021-02-09)
+
+**Note:** Version bump only for package @walrus/preset-lint
+
 ## [1.1.7](https://github.com/walrusjs/plugins/compare/@walrus/preset-lint@1.1.6...@walrus/preset-lint@1.1.7) (2020-09-01)
 
 **Note:** Version bump only for package @walrus/preset-lint
