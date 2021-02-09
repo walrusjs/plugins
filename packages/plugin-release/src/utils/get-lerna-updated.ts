@@ -14,9 +14,6 @@ const getLernaUpdated = (publishOnly: boolean) => {
 
     updated = updatedStdout
       .split('\n')
-      .map((pkg) => {
-        return pkg.split('/')[1];
-      })
       .filter(Boolean);
   }
 

@@ -1,4 +1,3 @@
-import { join } from 'path';
 import { execa, chalk } from '@walrus/utils';
 import { exec, logStep, isNextVersion, printErrorAndExit, syncTNpm } from '../utils';
 import { ReleasePluginConfig } from '../types';

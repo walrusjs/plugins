@@ -19,17 +19,12 @@ export default async function release(
   options: ReleasePluginConfig
 ) {
   /** 获取更新的包 */
-  const updated = getLernaUpdated(options.publishOnly);
-
+  const updated = getLernaUpdated(options.publishOnly) ?? [];
   if (!updated.length) {
     printErrorAndExit('Release failed, no updated package is updated.');
     return;
   }
 
-  // Bump version
-  // Commit
-  // Git Tag
-  // Push
   logStep('bump version with lerna version');
 
   const conventionalGraduate = options.conventionalGraduate
@@ -52,8 +47,10 @@ export default async function release(
   );
 
   if (!options.skipPublish) {
-    // Publish
-    const pkgs = options.publishOnly ? await getPackages(cwd) : updated;
+    let pkgs = await getPackages(cwd);
+    if (!options.publishOnly) {
+      pkgs = pkgs.filter(item => updated.includes(item.name))
+    }
     logStep(`publish packages: ${chalk.blue(pkgs.join(', '))}`);
 
     pkgs.forEach((pkg, index) => {
