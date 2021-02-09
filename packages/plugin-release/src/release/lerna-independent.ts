@@ -58,24 +58,25 @@ export default async function release(
 
     pkgs.forEach((pkg, index) => {
       const { name, version, contents: pkgPath } = pkg;
-      console.log(name, version, pkgPath);
-      const isNext = isNextVersion(version);
-      let isPackageExist = null;
-      if (options.publishOnly) {
-        isPackageExist = packageExists({ name, version });
-        if (isPackageExist) {
-          console.log(`package ${name}@${version} is already exists on npm, skip.`);
+      if (name && version) {
+        const isNext = isNextVersion(version);
+        let isPackageExist = null;
+        if (options.publishOnly) {
+          isPackageExist = packageExists({ name, version });
+          if (isPackageExist) {
+            console.log(`package ${name}@${version} is already exists on npm, skip.`);
+          }
         }
-      }
-      if (!options.publishOnly || !isPackageExist) {
-        console.log(
-          `[${index + 1}/${pkgs.length}] Publish package ${name} ${isNext ? 'with next tag' : ''}`
-        );
-        const cliArgs = isNext ? ['publish', '--tag', 'next'] : ['publish'];
-        const { stdout } = execa.sync('npm', cliArgs, {
-          cwd: pkgPath
-        });
-        console.log(stdout);
+        if (!options.publishOnly || !isPackageExist) {
+          console.log(
+            `[${index + 1}/${pkgs.length}] Publish package ${name} ${isNext ? 'with next tag' : ''}`
+          );
+          const cliArgs = isNext ? ['publish', '--tag', 'next'] : ['publish'];
+          const { stdout } = execa.sync('npm', cliArgs, {
+            cwd: pkgPath
+          });
+          console.log(stdout);
+        }
       }
     });
 
