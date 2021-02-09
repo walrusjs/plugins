@@ -1,6 +1,6 @@
 {
   "name": "@walrus/plugin-release",
-  "version": "1.10.3",
+  "version": "1.10.4",
   "description": "walrus plugin release",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",

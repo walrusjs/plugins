@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.10.4](https://github.com/walrusjs/plugins/compare/@walrus/plugin-release@1.10.3...@walrus/plugin-release@1.10.4) (2021-02-09)
+
+### Bug Fixes
+
+- 修复发布报错 ([ad62843](https://github.com/walrusjs/plugins/commit/ad6284372d60d2bdd33b578a82093fb53b34608f))
+
 ## [1.10.3](https://github.com/walrusjs/plugins/compare/@walrus/plugin-release@1.10.2...@walrus/plugin-release@1.10.3) (2021-02-09)
 
 **Note:** Version bump only for package @walrus/plugin-release
