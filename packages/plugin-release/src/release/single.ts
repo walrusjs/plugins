@@ -40,7 +40,7 @@ export default async function (
     const publishOpts = ['publish'];
 
     if (options.tag) {
-      await exec('npm', ['publish', '--tag', options.tag]);
+      publishOpts.push('--tag', options.tag);
     }
 
     await exec('npm', publishOpts);
