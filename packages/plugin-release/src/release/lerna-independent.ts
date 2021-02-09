@@ -58,6 +58,7 @@ export default async function release(
 
     pkgs.forEach((pkg, index) => {
       const { name, version, contents: pkgPath } = pkg;
+      console.log(name, version, pkgPath);
       const isNext = isNextVersion(version);
       let isPackageExist = null;
       if (options.publishOnly) {
