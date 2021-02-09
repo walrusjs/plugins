@@ -8,6 +8,8 @@ export interface LernaInfo {
 }
 
 export interface ReleasePluginConfig {
+  /** npm push --tag="****" */
+  tag?: string;
   // 跳过编译
   skipBuild?: boolean;
   // 是否跳过同步到淘宝源

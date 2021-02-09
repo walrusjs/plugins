@@ -4,7 +4,11 @@ import { chalk } from '@walrus/utils';
 import { exec, logStep, syncTNpm } from '../utils';
 import { ReleasePluginConfig } from '../types';
 
-export default async function (cwd: string, version: string, args: ReleasePluginConfig) {
+export default async function (
+  cwd: string,
+  version: string,
+  options: ReleasePluginConfig
+) {
   const pkgPath = join(cwd, 'package.json');
 
   /** 修改package.json版本 */
@@ -31,16 +35,21 @@ export default async function (cwd: string, version: string, args: ReleasePlugin
   await exec('git', ['push']);
 
   /** 发布到npm */
-  if (!args.skipPublish) {
+  if (!options.skipPublish) {
     logStep(`npm pulish`);
-    // publish
-    await exec('npm', ['publish']);
+    const publishOpts = ['publish'];
+
+    if (options.tag) {
+      await exec('npm', ['publish', '--tag', options.tag]);
+    }
+
+    await exec('npm', publishOpts);
   } else {
     logStep('npm registryre check is skipped, since --skip-publish is supplied');
   }
 
   // 是否同步到淘宝源
-  if (rootPkg.name && !args.skipSync) {
+  if (rootPkg.name && !options.skipSync) {
     logStep(`sync tnpm`);
     syncTNpm([rootPkg.name]);
   }

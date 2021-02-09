@@ -19,6 +19,7 @@ export default function (api: Api) {
       default: defaultConfig,
       schema(joi) {
         return joi.object({
+          tag: joi.string(),
           skipBuild: joi.boolean(),
           skipSync: joi.boolean(),
           skipPublish: joi.boolean(),
