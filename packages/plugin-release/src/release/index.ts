@@ -25,12 +25,6 @@ async function release({ pkg, cwd, mode, options }: {
   /** 获取当前版本 */
   const currentVersion = getCurrentVersion(mode);
 
-  /** 检查 */
-  if (mode === 'single' && !options.skipPublish && (pkg.private || !currentVersion)) {
-    printErrorAndExit(`单包项目&跳过发布&(项目私有或者版本不存在)`);
-    return;
-  }
-
   /** 单项目不合法检查 */
   if (mode === 'single' && !options.skipPublish) {
     if (pkg.private) {

@@ -76,7 +76,7 @@ async function release(
       logStep(`sync tnpm`);
 
       const pkgNames = pkgs
-        .map((name) => require(join(__dirname, '../packages', name, 'package.json')).name)
+        .map((pkg) => pkg.name)
         .filter((item) => item);
 
       syncTNpm(pkgNames);
