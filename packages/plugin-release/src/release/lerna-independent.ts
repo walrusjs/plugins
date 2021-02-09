@@ -14,12 +14,16 @@ import { ReleasePluginConfig } from '../types';
 const { getPackages } = require('@lerna/project');
 const lernaCli = require.resolve('lerna/cli');
 
-async function release(cwd: string, args: ReleasePluginConfig) {
-  // 获取更新的包
-  const updated = getLernaUpdated(args.publishOnly);
+export default async function release(
+  cwd: string,
+  options: ReleasePluginConfig
+) {
+  /** 获取更新的包 */
+  const updated = getLernaUpdated(options.publishOnly);
 
   if (!updated.length) {
     printErrorAndExit('Release failed, no updated package is updated.');
+    return;
   }
 
   // Bump version
@@ -28,15 +32,15 @@ async function release(cwd: string, args: ReleasePluginConfig) {
   // Push
   logStep('bump version with lerna version');
 
-  const conventionalGraduate = args.conventionalGraduate
+  const conventionalGraduate = options.conventionalGraduate
     ? ['--conventional-graduate'].concat(
-        Array.isArray(args.conventionalGraduate) ? args.conventionalGraduate.join(',') : []
+        Array.isArray(options.conventionalGraduate) ? options.conventionalGraduate.join(',') : []
       )
     : [];
 
-  const conventionalPrerelease = args.conventionalPrerelease
+  const conventionalPrerelease = options.conventionalPrerelease
     ? ['--conventional-prerelease'].concat(
-        Array.isArray(args.conventionalPrerelease) ? args.conventionalPrerelease.join(',') : []
+        Array.isArray(options.conventionalPrerelease) ? options.conventionalPrerelease.join(',') : []
       )
     : [];
 
@@ -47,22 +51,22 @@ async function release(cwd: string, args: ReleasePluginConfig) {
       .concat(conventionalPrerelease)
   );
 
-  if (!args.skipPublish) {
+  if (!options.skipPublish) {
     // Publish
-    const pkgs = args.publishOnly ? getPackages(cwd) : updated;
+    const pkgs = options.publishOnly ? getPackages(cwd) : updated;
     logStep(`publish packages: ${chalk.blue(pkgs.join(', '))}`);
 
     pkgs.forEach((pkg, index) => {
       const { name, version, contents: pkgPath } = pkg;
       const isNext = isNextVersion(version);
       let isPackageExist = null;
-      if (args.publishOnly) {
+      if (options.publishOnly) {
         isPackageExist = packageExists({ name, version });
         if (isPackageExist) {
           console.log(`package ${name}@${version} is already exists on npm, skip.`);
         }
       }
-      if (!args.publishOnly || !isPackageExist) {
+      if (!options.publishOnly || !isPackageExist) {
         console.log(
           `[${index + 1}/${pkgs.length}] Publish package ${name} ${isNext ? 'with next tag' : ''}`
         );
@@ -74,7 +78,7 @@ async function release(cwd: string, args: ReleasePluginConfig) {
       }
     });
 
-    if (!args.skipSync) {
+    if (!options.skipSync) {
       logStep(`sync tnpm`);
 
       const pkgNames = pkgs
@@ -87,5 +91,3 @@ async function release(cwd: string, args: ReleasePluginConfig) {
 
   logStep('done');
 }
-
-export default release;
