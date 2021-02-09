@@ -55,7 +55,7 @@ async function release(
   const isNext = isNextVersion(currVersion);
 
   if (!args.skipPublish) {
-    const pkgs = getPackages(cwd);
+    const pkgs = await getPackages(cwd);
     logStep(`publish packages: ${chalk.blue(pkgs.join(', '))}`);
 
     pkgs.forEach((pkg, index) => {

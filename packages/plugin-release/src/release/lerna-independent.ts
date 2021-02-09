@@ -53,7 +53,7 @@ export default async function release(
 
   if (!options.skipPublish) {
     // Publish
-    const pkgs = options.publishOnly ? getPackages(cwd) : updated;
+    const pkgs = options.publishOnly ? await getPackages(cwd) : updated;
     logStep(`publish packages: ${chalk.blue(pkgs.join(', '))}`);
 
     pkgs.forEach((pkg, index) => {
