@@ -8,24 +8,25 @@ export interface LernaInfo {
 }
 
 export interface ReleasePluginConfig {
-  /** npm push --tag="****" */
+  /** npm push --tag **** */
   tag?: string;
-  // 跳过编译
+  /** 是否跳过编译 */
   skipBuild?: boolean;
-  // 是否跳过同步到淘宝源
+  /** 是否跳过同步到淘宝源 */
   skipSync?: boolean;
-  // 跳过发布
+  /** 是否跳过发布 */
   skipPublish?: boolean;
-  // 仓库地址
+  /** 仓库地址 */
   repoUrl?: string;
-  // 仓库地址前缀 目前支持 github
+  /** 仓库地址前缀 目前支持 github */
   repoUrlPrefix?: string;
-  // 跳过 Git 状态检查
+  /** 是否跳过 Git 状态检查 */
   skipGitStatusCheck?: boolean;
-  // 跳过changelog
+  /** 是否跳过生成changelog */
   skipChangelog?: boolean;
+  /** 仅发布，lerna模式有效 */
   publishOnly?: boolean;
-  // 编译命令
+  /** 指定编译命令 */
   buildCommand?: string;
   conventionalGraduate?: any;
   conventionalPrerelease?: any;
