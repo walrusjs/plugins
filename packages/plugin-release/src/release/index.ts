@@ -14,6 +14,8 @@ import {
 } from '../utils';
 import { Mode, ReleasePluginConfig } from '../types';
 
+const { getPackages } = require('@lerna/project');
+
 async function release({ pkg, cwd, mode, options }: {
   cwd: string,
   mode: Mode,
@@ -21,6 +23,15 @@ async function release({ pkg, cwd, mode, options }: {
   options: ReleasePluginConfig
 }) {
   logStep('start');
+
+  // const pkgs = await getPackages(cwd);
+
+  // pkgs.forEach((pkg, index) => {
+  //   const { name, version, contents: pkgPath } = pkg;
+  //   console.log(name, version, pkgPath)
+  // })
+
+  // return;
 
   /** 获取当前版本 */
   const currentVersion = getCurrentVersion(mode);
