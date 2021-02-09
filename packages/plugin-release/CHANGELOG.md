@@ -3,28 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [1.9.1](https://github.com/walrusjs/plugins/compare/@walrus/plugin-release@1.9.0...@walrus/plugin-release@1.9.1) (2020-08-22)
-
+# [1.10.0](https://github.com/walrusjs/plugins/compare/@walrus/plugin-release@1.9.1...@walrus/plugin-release@1.10.0) (2021-02-09)
 
 ### Bug Fixes
 
-* **plugin-release:** 修复跳过同步淘宝源逻辑判断 ([c59015e](https://github.com/walrusjs/plugins/commit/c59015e331a9c6026f1f24fbfe6d58ec094b18c1))
-
-
-
-
-
-# [1.9.0](https://github.com/walrusjs/plugins/compare/@walrus/plugin-release@1.8.1...@walrus/plugin-release@1.9.0) (2020-08-22)
-
+- **plugin-release:** 修复 lerna 非 packages 目录发布报错问题 ([8e009d2](https://github.com/walrusjs/plugins/commit/8e009d2dd4c994da4848fc0127569973b59950ae))
 
 ### Features
 
-* **plugin-release:** 添加同步淘宝源功能 ([b5c90dd](https://github.com/walrusjs/plugins/commit/b5c90dd4e04542774cc8d64812b38d83506c3091))
-* **plugin-release:** 添加校验 ([bc0003d](https://github.com/walrusjs/plugins/commit/bc0003dd894d966da313beff124794c07170bab9))
+- **plugin-release:** 代码优化 ([551a918](https://github.com/walrusjs/plugins/commit/551a918f7cb51e7f4a66896804777814ec590ba0))
+- **plugin-release:** 代码优化 ([015a17f](https://github.com/walrusjs/plugins/commit/015a17f9fdde78f218228dc7e7921bcd0b1fb167))
+- **plugin-release:** 代码优化 ([592e685](https://github.com/walrusjs/plugins/commit/592e68550b6cdea08e56c621ae9843da29be2103))
 
+## [1.9.1](https://github.com/walrusjs/plugins/compare/@walrus/plugin-release@1.9.0...@walrus/plugin-release@1.9.1) (2020-08-22)
 
+### Bug Fixes
 
+- **plugin-release:** 修复跳过同步淘宝源逻辑判断 ([c59015e](https://github.com/walrusjs/plugins/commit/c59015e331a9c6026f1f24fbfe6d58ec094b18c1))
 
+# [1.9.0](https://github.com/walrusjs/plugins/compare/@walrus/plugin-release@1.8.1...@walrus/plugin-release@1.9.0) (2020-08-22)
+
+### Features
+
+- **plugin-release:** 添加同步淘宝源功能 ([b5c90dd](https://github.com/walrusjs/plugins/commit/b5c90dd4e04542774cc8d64812b38d83506c3091))
+- **plugin-release:** 添加校验 ([bc0003d](https://github.com/walrusjs/plugins/commit/bc0003dd894d966da313beff124794c07170bab9))
 
 ## [1.8.1](https://github.com/walrusjs/plugins/compare/@walrus/plugin-release@1.8.0...@walrus/plugin-release@1.8.1) (2020-07-13)
 
