@@ -1,0 +1,21 @@
+{
+  "name": "@walrus/plugins-run",
+  "version": "0.0.1",
+  "description": "walrus plugin script",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "lib"
+  ],
+  "license": "MIT",
+  "peerDependencies": {
+    "@walrus/cli": "1.x"
+  },
+  "dependencies": {
+    "@swc-node/register": "^1.0.4",
+    "execa": "^5.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
