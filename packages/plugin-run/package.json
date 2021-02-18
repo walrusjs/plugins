@@ -1,5 +1,5 @@
 {
-  "name": "@walrus/plugins-run",
+  "name": "@walrus/plugin-run",
   "version": "0.1.0",
   "description": "walrus plugin script",
   "main": "lib/index.js",
