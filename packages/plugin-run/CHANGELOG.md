@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0](https://github.com/walrusjs/plugins/compare/@walrus/plugin-run@0.2.0...@walrus/plugin-run@0.3.0) (2021-02-19)
+
+### Features
+
+- **plugin-run:** 支持传递参数 ([53dcaac](https://github.com/walrusjs/plugins/commit/53dcaacf06ce3ee3190c2e35778db10a80e41c92))
+
 # 0.2.0 (2021-02-18)
 
 ### Features
