@@ -6,7 +6,10 @@ export default function (api: Api) {
   api.registerCommand({
     name: 'run',
     description: 'Run a js/ts script',
-    fn: async ({ args }) => {
+    fn: async () => {
+      const argv = process.argv;
+      argv.splice(0, 3)
+
       try {
         execa.sync(
           'node',
@@ -14,7 +17,7 @@ export default function (api: Api) {
             '--unhandled-rejections=strict',
             '-r',
             require.resolve('./swc-register'),
-            args._[0],
+            ...argv
           ],
           {
             cwd: process.cwd(),
