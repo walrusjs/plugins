@@ -42,7 +42,7 @@ async function release({ pkg, cwd, mode, options }: {
       return;
     }
 
-    if (pkg.name.charAt(0) === '@' && pkg.publishConfig?.access === 'public') {
+    if (pkg.name.charAt(0) === '@' && pkg.publishConfig?.access !== 'public') {
       printErrorAndExit('未设置 publishConfig.access 为 public');
       return;
     }
