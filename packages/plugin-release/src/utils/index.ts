@@ -1,5 +1,6 @@
 import { join } from 'path';
 import inquirer from 'inquirer';
+import template from 'lodash/template';
 import { chalk, execa } from '@walrus/utils';
 import { LernaInfo } from '../types';
 
@@ -47,3 +48,8 @@ export { default as syncTNpm } from './sync-tnpm';
 export { default as getChangelog } from './get-changelog';
 export { default as isNextVersion } from './is-next-version';
 export { default as getNextVersion } from './get-next-version';
+
+export function getCommitMessage(temp: string, version: string = '') {
+  const compiled = template(temp);
+  return compiled({ version }) + version ? `` : `release version`;
+}

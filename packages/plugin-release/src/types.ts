@@ -28,6 +28,8 @@ export interface ReleasePluginConfig {
   publishOnly?: boolean;
   /** 指定编译命令 */
   buildCommand?: string;
+  /** 指定提交的信息 */
+  commitMessage?: string;
   conventionalGraduate?: any;
   conventionalPrerelease?: any;
 }

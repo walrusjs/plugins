@@ -8,6 +8,7 @@ const defaultConfig: ReleasePluginConfig = {
   skipSync: true,
   skipPublish: false,
   skipGitStatusCheck: false,
+  commitMessage: `🔖 release: <%= version %>`,
   buildCommand: 'build',
   repoUrlPrefix: 'https://github.com/'
 };
@@ -24,6 +25,7 @@ export default function (api: Api) {
           skipSync: joi.boolean(),
           skipPublish: joi.boolean(),
           repoUrl: joi.string(),
+          commitMessage: joi.string(),
           skipChangelog: joi.string(),
           repoUrlPrefix: joi.string(),
           buildCommand: joi.string(),

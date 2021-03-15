@@ -7,7 +7,8 @@ import {
   exec,
   syncTNpm,
   isNextVersion,
-  getLernaUpdated
+  getLernaUpdated,
+  getCommitMessage
 } from '../utils';
 import { ReleasePluginConfig } from '../types';
 
@@ -38,6 +39,8 @@ export default async function release(
         Array.isArray(options.conventionalPrerelease) ? options.conventionalPrerelease.join(',') : []
       )
     : [];
+
+  const commitMessage = getCommitMessage(options.commitMessage);
 
   await exec(
     lernaCli,

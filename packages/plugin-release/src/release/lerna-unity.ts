@@ -1,5 +1,5 @@
 import { execa, chalk } from '@walrus/utils';
-import { exec, logStep, isNextVersion, printErrorAndExit, syncTNpm } from '../utils';
+import { exec, logStep, isNextVersion, printErrorAndExit, syncTNpm, getCommitMessage } from '../utils';
 import { ReleasePluginConfig } from '../types';
 
 const lernaCli = require.resolve('lerna/cli');
@@ -39,7 +39,7 @@ async function release(
   ]);
 
   // Commit
-  const commitMessage = `chore(release): v${currVersion}`;
+  const commitMessage = getCommitMessage(args.commitMessage, currVersion);
   logStep(`git commit with ${chalk.blue(commitMessage)}`);
   await exec('git', ['commit', '--all', '--message', commitMessage]);
 

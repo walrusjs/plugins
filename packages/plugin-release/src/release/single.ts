@@ -1,7 +1,7 @@
 import { join } from 'path';
 import { writeFileSync } from 'fs';
 import { chalk } from '@walrus/utils';
-import { exec, logStep, syncTNpm } from '../utils';
+import { exec, logStep, syncTNpm, getCommitMessage } from '../utils';
 import { ReleasePluginConfig } from '../types';
 
 export default async function (
@@ -18,7 +18,7 @@ export default async function (
   writeFileSync(pkgPath, JSON.stringify(rootPkg, null, 2) + '\n', 'utf-8');
 
   /** 提交代码 */
-  const commitMessage = `chore(release): v${version}`;
+  const commitMessage = getCommitMessage(options.commitMessage, version);
   logStep(`git commit with ${chalk.blue(commitMessage)}`);
   await exec('git', ['commit', '--all', '--message', commitMessage]);
 
