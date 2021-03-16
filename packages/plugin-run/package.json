@@ -12,10 +12,10 @@
     "@walrus/cli": "1.x"
   },
   "dependencies": {
-    "@swc-node/register": "^1.0.4",
-    "execa": "^5.0.0"
+    "@walrus/script-run": "^1.1.0"
   },
   "publishConfig": {
+    "registry": "https://registry.npmjs.org",
     "access": "public"
   }
 }

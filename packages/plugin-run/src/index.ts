@@ -1,6 +1,5 @@
 import { Api } from '@walrus/types';
-
-const execa = require('execa');
+import { scriptRun } from '@walrus/script-run';
 
 export default function (api: Api) {
   api.registerCommand({
@@ -11,21 +10,10 @@ export default function (api: Api) {
       argv.splice(0, 3)
 
       try {
-        execa.sync(
-          'node',
-          [
-            '--unhandled-rejections=strict',
-            '-r',
-            require.resolve('./swc-register'),
-            ...argv
-          ],
-          {
-            cwd: process.cwd(),
-            env: process.env,
-            stdio: 'inherit',
-          },
-        )
-      } catch {}
+        scriptRun(argv);
+      } catch {
+        process.exit(1);
+      }
     }
   });
 }
