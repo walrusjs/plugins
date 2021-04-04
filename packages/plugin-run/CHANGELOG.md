@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.5.0](https://github.com/walrusjs/plugins/compare/@walrus/plugin-run@0.3.0...@walrus/plugin-run@0.5.0) (2021-04-04)
+
+### Features
+
+- **plugin-run:** 替换为@walrus/script-run ([4ad9388](https://github.com/walrusjs/plugins/commit/4ad9388720c7fe36589237938ef4d8ab8b493f53))
+
 # [0.4.0](https://github.com/walrusjs/plugins/compare/@walrus/plugin-run@0.3.0...@walrus/plugin-run@0.4.0) (2021-03-16)
 
 ### Features
