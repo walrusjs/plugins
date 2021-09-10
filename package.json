@@ -12,7 +12,7 @@
     "prettier": "walrus prettier",
     "lint:es": "walrus eslint",
     "lint:commit": "walrus commitlint --env HUSKY_GIT_PARAMS",
-    "release": "walrus release"
+    "release": "walrus release --commit-message 'chore(release): publish'"
   },
   "devDependencies": {
     "@walrus/cli": "^1.3.4",
