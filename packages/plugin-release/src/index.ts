@@ -7,6 +7,7 @@ const defaultConfig: Config = {
   skipSync: true,
   skipPublish: false,
   skipGitStatusCheck: false,
+  skipNpmRegistryCheck: false,
   commitMessage: `🔖 chore(release): publish %v`,
   buildCommand: 'build'
 };
@@ -22,6 +23,7 @@ export default function (api: Api) {
           skipBuild: joi.boolean(),
           skipSync: joi.boolean(),
           skipPublish: joi.boolean(),
+          skipNpmRegistryCheck: joi.boolean(),
           repoUrl: joi.string(),
           commitMessage: joi.string(),
           skipChangelog: joi.string(),
