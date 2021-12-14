@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0](https://github.com/walrusjs/plugins/compare/@walrus/plugin-entry@0.2.1...@walrus/plugin-entry@0.3.0) (2021-12-14)
+
+### Features
+
+- **plugin-entry:** 支持 defaultExport 功能 ([b234710](https://github.com/walrusjs/plugins/commit/b234710701fc81facc3dd0e604da9a5b9b3b10c9))
+
 ## [0.2.1](https://github.com/walrusjs/plugins/compare/@walrus/plugin-entry@0.2.0...@walrus/plugin-entry@0.2.1) (2020-12-18)
 
 ### Bug Fixes
