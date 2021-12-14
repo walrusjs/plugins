@@ -17,7 +17,8 @@ const defaultConfig: PluginEntryConfig = {
     'theme',
     'style'
   ],
-  format: 'bigCamelCase'
+  format: 'bigCamelCase',
+  defaultExport: true,
 };
 
 export default function (api: Api) {
@@ -31,6 +32,7 @@ export default function (api: Api) {
           sacnParh: joi.string(),
           writePath: joi.string(),
           mode: joi.string(),
+          defaultExport: joi.boolean(),
           format: joi.alternatives(joi.string(), joi.function())
         });
       }
@@ -50,7 +52,7 @@ export default function (api: Api) {
       entry.sacnParh = entry.sacnParh || SCAN_PATH;
       entry.writePath = entry.writePath || WRITE_PATH;
 
-      const { ignore, sacnParh, writePath, format } = entry || {};
+      const { ignore, sacnParh, writePath, format, defaultExport } = entry || {};
 
       try {
         // 生成的文件名，首字母小写
@@ -81,7 +83,12 @@ export default function (api: Api) {
 
         useableFiles.forEach((item) => {
           const name = formatExportName(item);
-          fileString += `import ${name} from './${item}';\n`;
+
+          if (defaultExport) {
+            fileString += `import ${name} from './${item}';\n`;
+          } else {
+            fileString += `import { ${name} } from './${item}';\n`;
+          }
         });
         fileString += `\nexport {\n  ${useableFiles.map(formatExportName).join(',\n  ')}\n};`;
         fileString += `\n\nexport default {\n  ${useableFiles.map(formatExportName).join(',\n  ')}\n};`;

@@ -1,16 +1,12 @@
 export interface PluginEntryConfig {
-  /**
-   * 需要忽略的文件
-   */
+  /** 需要忽略的文件 */
   ignore?: string[];
-  /**
-   * 需要扫描的目录
-   */
+  /** 需要扫描的目录 */
   sacnParh?: string;
-  /**
-   * 输出的路径
-   */
+  /** 输出的路径 */
   writePath?: string;
+  /** 是否使用默认导出 */
+  defaultExport?: boolean;
   /**
    * 输出的模式
    * original: 和目录保持一致，不做处理
