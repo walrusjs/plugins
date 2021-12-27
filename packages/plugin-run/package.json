@@ -12,7 +12,7 @@
     "@walrus/cli": "1.x"
   },
   "dependencies": {
-    "@walrus/script-run": "^1.2.0"
+    "@walrus/script-run": "^1.2.1"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org",
