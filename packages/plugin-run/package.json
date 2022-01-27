@@ -1,6 +1,6 @@
 {
   "name": "@walrus/plugin-run",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "description": "walrus plugin script",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",

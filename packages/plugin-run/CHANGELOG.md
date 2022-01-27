@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.5.3](https://github.com/walrusjs/plugins/compare/@walrus/plugin-run@0.5.2...@walrus/plugin-run@0.5.3) (2022-01-27)
+
+**Note:** Version bump only for package @walrus/plugin-run
+
 ## [0.5.2](https://github.com/walrusjs/plugins/compare/@walrus/plugin-run@0.5.1...@walrus/plugin-run@0.5.2) (2021-12-30)
 
 **Note:** Version bump only for package @walrus/plugin-run
