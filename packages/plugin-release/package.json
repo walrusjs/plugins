@@ -7,6 +7,9 @@
   "files": [
     "lib"
   ],
+  "scripts": {
+    "build": "redbud build"
+  },
   "license": "MIT",
   "peerDependencies": {
     "@walrus/cli": "1.x"

@@ -8,6 +8,9 @@
     "lib"
   ],
   "license": "MIT",
+  "scripts": {
+    "build": "redbud build"
+  },
   "dependencies": {
     "@types/vfile-message": "^2.0.0",
     "stylelint": "13.6.1",

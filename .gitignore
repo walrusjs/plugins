@@ -1,5 +1,7 @@
 # Build
 lib
+es
+dist
 
 # Test
 coverage

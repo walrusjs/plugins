@@ -8,6 +8,9 @@
     "lib"
   ],
   "license": "MIT",
+  "scripts": {
+    "build": "redbud build"
+  },
   "peerDependencies": {
     "@walrus/cli": "1.x"
   },

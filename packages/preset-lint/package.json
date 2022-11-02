@@ -7,6 +7,9 @@
     "lib"
   ],
   "license": "MIT",
+  "scripts": {
+    "build": "redbud build"
+  },
   "dependencies": {
     "@walrus/plugin-commitlint": "1.2.1",
     "@walrus/plugin-eslint": "1.2.3",

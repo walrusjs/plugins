@@ -8,6 +8,9 @@
     "lib"
   ],
   "license": "MIT",
+  "scripts": {
+    "build": "redbud build"
+  },
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "4.0.1",
     "@typescript-eslint/parser": "4.0.1",

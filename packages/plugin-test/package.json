@@ -7,6 +7,9 @@
     "lib"
   ],
   "license": "MIT",
+  "scripts": {
+    "build": "redbud build"
+  },
   "dependencies": {
     "@walrus/test": "^1.1.1"
   },
