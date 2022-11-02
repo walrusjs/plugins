@@ -1,23 +1,16 @@
 {
-    "version": "independent",
-    "npmClient": "pnpm",
-    "useWorkspaces": true,
-    "changelog": {
-      "repo": "@walrus/plugins",
-      "labels": {
-        "pr(enhancement)": ":rocket: Enhancement",
-        "pr(bug)": ":bug: Bug Fix",
-        "pr(documentation)": ":book: Documentation",
-        "pr(dependency)": ":deciduous_tree: Dependency",
-        "pr(chore)": ":turtle: Chore"
-      },
-      "cacheDir": ".changelog"
+  "version": "independent",
+  "useWorkspaces": true,
+  "changelog": {
+    "repo": "@walrus/plugins",
+    "labels": {
+      "pr(enhancement)": ":rocket: Enhancement",
+      "pr(bug)": ":bug: Bug Fix",
+      "pr(documentation)": ":book: Documentation",
+      "pr(dependency)": ":deciduous_tree: Dependency",
+      "pr(chore)": ":turtle: Chore"
     },
-    "ignoreChanges": [
-      "**/*.md",
-      "**/*.test.ts",
-      "**/*.e2e.ts",
-      "**/fixtures/**",
-      "**/test/**"
-    ]
-  }
+    "cacheDir": ".changelog"
+  },
+  "ignoreChanges": ["**/*.md", "**/*.test.ts", "**/*.e2e.ts", "**/fixtures/**", "**/test/**"]
+}
